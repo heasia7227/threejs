@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第十二课 常见几何体</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/12.js"></script>
+    </head>
+    <body>
+        <pre>
+// BoxGeometry: 长方体
+const boxGeometry = new THREE.BoxGeometry(50, 50, 50);
+
+// SphereGeometry：球体
+const sphereGeometry = new THREE.SphereGeometry(25);
+
+// CylinderGeometry：圆柱
+const cylinderGeometry = new THREE.CylinderGeometry(25, 25, 100);
+
+// PlaneGeometry：矩形平面
+const planeGeometry = new THREE.PlaneGeometry(50, 50);
+
+// CircleGeometry：圆形平面
+const circleGeometry = new THREE.CircleGeometry(25);
+
+
+// 平面图形默认单面可见
+const boxMaterial = new THREE.MeshLambertMaterial({
+    side: THREE.DoubleSide, //两面可见
+});
+        </pre>
+    </body>
+</html>
