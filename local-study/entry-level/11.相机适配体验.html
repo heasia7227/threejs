@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第十一课 相机适配体验</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/11.js"></script>
+    <body>
+        <pre>
+// 透视相机
+const camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 8000);
+// 设置相机位置
+camera.position.set(2000, 2000, 2000);
+// 设置相机观察点或对象
+camera.lookAt(500, 0, 500);
+
+
+controls.target.set(500, 0, 500);
+controls.update();
+        </pre>
+    </body>
+</html>
