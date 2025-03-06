@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第九课 一列立方体</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/9.js"></script>
+    <body>
+        <pre>
+// 几何体 - 长方体
+const boxGeometry = new THREE.BoxGeometry(50, 50, 50);
+// 几何体材质，漫反射网格材质
+const boxMaterial = new THREE.MeshLambertMaterial({
+    color: 0xff0000,
+});
+for (let i = 0; i < 10; i++) {
+    // 网格模型
+    const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+    // 沿着x轴分布
+    boxMesh.position.set(i * 100, 0, 0);
+    scene.add(boxMesh); //网格模型添加到场景中
+}
+        </pre>
+    </body>
+</html>
