@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第八课 stats查看threejs渲染帧率</title>
+        <style>
+            body {
+                overflow: hidden;
+                margin: 0px;
+            }
+        </style>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/8.js"></script>
+    </head>
+    <body>
+        <pre style="position: fixed; top: 45px; left: 0; color: #fff">
+import Stats from "three/addons/libs/stats.module.js";
+
+// 创建stats对象
+const stats = new Stats();
+// stats.domElement:web页面上输出计算结果,一个div元素
+document.body.appendChild(stats.domElement);
+
+
+// 渲染函数
+function render() {
+    stats.update(); // 告诉stats更新
+    renderer.render(scene, camera);
+    boxMesh.rotateY(0.01);
+    requestAnimationFrame(render);
+}
+render();
+        </pre>
+    </body>
+</html>

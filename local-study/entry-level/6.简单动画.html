@@ -14,5 +14,17 @@
         </script>
         <script type="module" src="./js/6.js"></script>
     </head>
-    <body></body>
+    <body>
+        <pre>
+// 屏蔽OrbitControls change事件，动画渲染可以代替
+
+// 渲染函数
+function render() {
+    renderer.render(scene, camera); //执行渲染操作
+    boxMesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
+    requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
+}
+render();
+        </pre>
+    </body>
 </html>

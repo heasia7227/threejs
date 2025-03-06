@@ -14,5 +14,20 @@
         </script>
         <script type="module" src="./js/4.js"></script>
     </head>
-    <body></body>
+    <body>
+        <pre>
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+// 设置相机控件轨道控制器OrbitControls
+const controls = new OrbitControls(camera, renderer.domElement);
+// 如果OrbitControls改变了相机参数，重新调用渲染器渲染三维场景
+controls.addEventListener("change", function () {
+    renderer.render(scene, camera); //执行渲染操作
+});
+
+// 旋转：拖动鼠标左键
+// 缩放：滚动鼠标中键
+// 平移：拖动鼠标右键
+        </pre>
+    </body>
 </html>

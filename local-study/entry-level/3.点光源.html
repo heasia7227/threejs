@@ -13,5 +13,16 @@
         </script>
         <script type="module" src="./js/3.js"></script>
     </head>
-    <body></body>
+    <body>
+        <pre>
+// 点光源
+const pointLight = new THREE.PointLight(0xffffff, 1.0);
+// 设置光源不随距离衰减
+pointLight.decay = 0.0;
+// 设置点光源位置
+pointLight.position.set(400, 200, 300);
+// 把点光源加入到场景中
+scene.add(pointLight);
+        </pre>
+    </body>
 </html>
