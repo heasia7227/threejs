@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第十四课 消除锯齿</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/14.js"></script>
+    </head>
+    <body>
+        <pre>
+const renderer = new THREE.WebGLRenderer({
+    antialias:true,
+});
+// 获取你屏幕对应的设备像素比.devicePixelRatio告诉threejs,以免渲染模糊问题
+renderer.setPixelRatio(window.devicePixelRatio);
+        </pre>
+    </body>
+</html>
