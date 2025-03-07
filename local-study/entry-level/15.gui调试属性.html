@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第十五课 gui调试属性</title>
+        <style>
+            body {
+                overflow: hidden;
+                margin: 0px;
+            }
+        </style>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/15.js"></script>
+    </head>
+    <body>
+        <pre style="position: fixed; top: 0; left: 0; color: #fff">
+import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+
+// 实例化一个gui对象
+const gui = new GUI();
+const obj = {
+    isRotate: false,
+    position: 0,
+};
+
+// 渲染函数
+function render() {
+    obj.isRotate && boxMesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
+    renderer.render(scene, camera); //执行渲染操作
+    requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
+}
+render();
+
+gui.add(boxMesh.position, "x", 0, 180).name("立方体x轴");
+gui.add(boxMesh.position, "y", 0, 180).name("立方体y轴");
+gui.add(boxMesh.position, "z", 0, 180).name("立方体z轴");
+gui.addColor(boxMaterial, "color").name("立方体颜色");
+gui.add(obj, "isRotate").name("旋转立方体");
+gui.add(obj, "position", [50, 100, 150])
+    .name("立方体位置")
+    .onChange((value) => {
+        boxMesh.position.x = value;
+        boxMesh.position.y = value;
+        boxMesh.position.z = value;
+    });
+        </pre>
+    </body>
+</html>
