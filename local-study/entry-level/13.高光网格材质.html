@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第十三课 高光网格材质</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/13.js"></script>
+    </head>
+    <body>
+        <pre>
+// 模拟镜面反射，产生一个高光效果
+const material = new THREE.MeshPhongMaterial({
+    color: 0xff0000,
+    shininess: 20, //高光部分的亮度，默认30
+    specular: 0x444444, //高光部分的颜色
+});
+        </pre>
+    </body>
+</html>
