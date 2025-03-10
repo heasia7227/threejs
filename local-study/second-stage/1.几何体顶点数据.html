@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第一课 几何体顶点数据</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js"
+                }
+            }
+        </script>
+        <script type="module" src="./js/1.js"></script>
+    </head>
+    <body>
+        <pre>
+已有的几何体（立方体、球体等）都是基于BufferGeometry类构建的。
+BufferGeometry是一个空的几何体。
+几何体的顶点坐标集合就是顶点数据。
+
+
+//创建一个空的几何体对象
+const geometry = new THREE.BufferGeometry(); 
+
+//类型化数组创建顶点数据
+const vertices = new Float32Array([
+    0, 0, 0, //顶点1坐标
+    50, 0, 0, //顶点2坐标
+    0, 100, 0, //顶点3坐标
+    0, 0, 10, //顶点4坐标
+    0, 0, 100, //顶点5坐标
+    50, 0, 10, //顶点6坐标
+]);
+
+// 创建属性缓冲区对象
+//3个为一组，表示一个顶点的xyz坐标
+const attribue = new THREE.BufferAttribute(vertices, 3);
+// 设置几何体attributes属性的位置属性
+geometry.attributes.position = attribue;
+
+// 点渲染模式
+const material = new THREE.PointsMaterial({
+    color: 0xffff00,
+    size: 10.0, //点对象像素尺寸
+});
+
+//点模型对象
+const points = new THREE.Points(geometry, material);
+scene.add(points);
+        </pre>
+    </body>
+</html>
