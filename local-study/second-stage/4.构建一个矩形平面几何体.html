@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第四课 构建一个矩形平面几何体</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js"
+                }
+            }
+        </script>
+        <script type="module" src="./js/4.js"></script>
+    </head>
+    <body>
+        <pre>
+//类型化数组创建顶点数据
+const vertices = new Float32Array([
+    0, 0, 0, //顶点1坐标
+    80, 0, 0, //顶点2坐标
+    80, 80, 0, //顶点3坐标
+    0, 0, 0, //顶点4坐标
+    80, 80, 0, //顶点5坐标
+    0, 80, 0, //顶点6坐标
+]);
+        </pre>
+    </body>
+</html>
