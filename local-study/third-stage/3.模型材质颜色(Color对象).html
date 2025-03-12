@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第三课 模型材质颜色(Color对象)</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/3.js"></script>
+    </head>
+    <body>
+        <pre>
+// 几何体材质，漫反射网格材质
+const boxMaterial = new THREE.MeshLambertMaterial({
+    color: 0xff0000,
+});
+
+const color = new THREE.Color(); //默认是纯白色0xffffff。
+console.log("查看颜色对象结构", color); //可以查看rgb的值
+
+color.setRGB(0, 1, 0); //RGB方式设置颜色
+color.setHex(0x00ff00); //十六进制方式设置颜色
+color.setStyle("#00ff00"); //前端CSS颜色值设置
+color.set(0x00ff00); //十六进制方式设置颜色
+color.set("#00ff00"); //前端CSS颜色值设置颜色
+color.set("rgb(0,255,0)");
+
+boxMaterial.color.set(0x00ff00);
+boxMaterial.color.set("#00ff00");
+boxMaterial.color.set("rgb(0,255,0)");
+        </pre>
+    </body>
+</html>
