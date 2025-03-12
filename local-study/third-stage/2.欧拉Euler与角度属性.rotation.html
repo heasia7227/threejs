@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第二课 欧拉Euler与角度属性.rotation</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/2.js"></script>
+    </head>
+    <body>
+        <pre>
+// 网格模型
+const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+// 创建一个欧拉对象，表示绕着xyz轴分别旋转45度，0度，90度
+const euler = new THREE.Euler(Math.PI / 4, 0, Math.PI / 2);
+console.log("euler", euler);
+//绕x轴
+boxMesh.rotation.x = Math.PI / 3;
+//绕y轴
+boxMesh.rotation.y = Math.PI / 3;
+//绕z轴
+boxMesh.rotation.z = Math.PI / 3;
+        </pre>
+    </body>
+</html>
