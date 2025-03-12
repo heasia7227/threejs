@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第一课 三维向量Vector3</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/1.js"></script>
+    </head>
+    <body>
+        <pre>
+// 网格模型
+const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+const v3 = new THREE.Vector3(25, 25, 25);
+console.log("v3", v3);
+// 设置网格模型位置
+boxMesh.position.x = 25;
+
+//向量Vector3对象表示方向
+const axis = new THREE.Vector3(2, 3, 4);
+axis.normalize(); //向量归一化
+//沿着axis轴表示方向平移100
+boxMesh.translateOnAxis(axis, 100);
+        </pre>
+    </body>
+</html>
