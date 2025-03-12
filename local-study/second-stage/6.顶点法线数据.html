@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第六课 顶点法线数据</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/6.js"></script>
+    </head>
+    <body>
+        <pre>
+受光照影响的材质（MeshLambertMaterial、MeshPhongMaterial等）都需要定义法线，Three.js根据法线计算光照夹角和反射。
+
+// 使用受光照影响的材质
+const material = new THREE.MeshLambertMaterial({
+    color: 0x0000ff, 
+    side: THREE.DoubleSide, //两面可见
+});
+
+// 矩形平面，有索引，两个三角形，有2个顶点重合，有4个顶点
+// 每个顶点的法线数据和顶点位置数据一一对应
+const normals = new Float32Array([
+    0, 0, 1, //顶点1法线( 法向量 )
+    0, 0, 1, //顶点2法线
+    0, 0, 1, //顶点3法线
+    0, 0, 1, //顶点4法线
+]);
+// 设置几何体的顶点法线属性.attributes.normal
+geometry.attributes.normal = new THREE.BufferAttribute(normals, 3);
+        </pre>
+    </body>
+</html>

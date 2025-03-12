@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第五课 几何体顶点索引数据</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js"
+                }
+            }
+        </script>
+        <script type="module" src="./js/5.js"></script>
+    </head>
+    <body>
+        <pre>
+//删除重复坐标
+const vertices = new Float32Array([
+    0, 0, 0, //顶点1坐标, 4坐标
+    80, 0, 0, //顶点2坐标
+    80, 80, 0, //顶点3坐标, 5坐标
+    0, 80, 0, //顶点6坐标
+]);
+
+// Uint16Array类型数组创建顶点索引数据
+const indexes = new Uint16Array([
+    // 下面索引值对应顶点位置数据中的顶点坐标
+    0, 1, 2, 0, 2, 3,
+]);
+geometry.index = new THREE.BufferAttribute(indexes, 1);
+        </pre>
+    </body>
+</html>

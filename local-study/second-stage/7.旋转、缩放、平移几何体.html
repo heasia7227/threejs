@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第七课 旋转、缩放、平移几何体</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/7.js"></script>
+    </head>
+    <body>
+        <pre>
+// 几何体xyz三个方向都放大2倍
+geometry.scale(2, 2, 2);
+// 几何体沿着x轴平移50
+geometry.translate(50, 0, 0);
+// 几何体绕着x轴旋转45度
+geometry.rotateX(Math.PI / 4);
+// 几何体旋转、缩放或平移之后，查看几何体顶点位置坐标的变化
+// BufferGeometry的旋转、缩放、平移等方法本质上就是改变顶点的位置坐标
+console.log('顶点位置数据', geometry.attributes.position);
+        </pre>
+    </body>
+</html>
