@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第二课 遍历模型树结构</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/2.js"></script>
+    </head>
+    <body>
+        <pre>
+// 几何体 - 长方体
+const geometry = new THREE.BoxGeometry(20, 60, 10);
+// 几何体材质，漫反射网格材质
+const material = new THREE.MeshLambertMaterial({
+    color: 0x00ff00,
+});
+
+// 批量创建多个长方体表示高层楼
+const group1 = new THREE.Group(); //所有高层楼的父对象
+group1.name = "高层";
+for (let i = 0; i < 5; i++) {
+    const mesh = new THREE.Mesh(geometry.clone(), material.clone());
+    mesh.position.x = i * 30; // 网格模型mesh沿着x轴方向阵列
+    mesh.name = i + 1 + "号楼";
+    group1.add(mesh); //添加到组对象group1
+}
+group1.position.y = 30;
+
+const geometry2 = new THREE.BoxGeometry(20, 30, 10);
+const material2 = new THREE.MeshLambertMaterial({
+    color: 0x00ffff,
+});
+const group2 = new THREE.Group();
+group2.name = "洋房";
+// 批量创建多个长方体表示洋房
+for (let i = 0; i < 5; i++) {
+    const mesh = new THREE.Mesh(geometry2.clone(), material2.clone());
+    mesh.position.x = i * 30;
+    mesh.name = i + 6 + "号楼";
+    group2.add(mesh); //添加到组对象group2
+}
+group2.position.z = 50;
+group2.position.y = 15;
+
+const model = new THREE.Group();
+model.name = "小区房子";
+model.add(group1, group2);
+model.position.x = 10;
+model.position.z = 5;
+
+// 递归遍历model包含所有的模型节点
+model.traverse(function (obj) {
+    console.log("所有模型节点的名称", obj.name, obj.isMesh);
+    // obj.isMesh：if判断模型对象obj是不是网格模型'Mesh'
+    if (obj.isMesh) {
+        //判断条件也可以是obj.type === 'Mesh'
+        obj.material.color.set(0xffff00);
+    }
+});
+
+// 返回名.name为"4号楼"对应的对象
+const nameNode = model.getObjectByName("4号楼");
+console.log("nameNode: ", nameNode);
+nameNode.material.color.set(0xff0000);
+
+scene.add(model);
+        </pre>
+    </body>
+</html>
