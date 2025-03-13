@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-        <title>入门Three.js 第二课 自定义顶点UV坐标</title>
+        <title>入门Three.js 第三课 纹理阵列</title>
         <style>
             body {
                 overflow: hidden;
@@ -18,25 +18,19 @@
                 }
             }
         </script>
-        <script type="module" src="./js/2.js"></script>
+        <script type="module" src="./js/3.js"></script>
     </head>
     <body>
         <pre style="position: fixed; top: 0; left: 0; color: #fff">
-// 顶点UV坐标geometry.attributes.uv和顶点位置坐标geometry.attributes.position是一一对应的，
-console.log("uv", boxGeometry.attributes.position);
-/**纹理坐标0~1之间随意定义*/
-const uvs = new Float32Array([
-    0,
-    1, //图片左上角
-    1,
-    1, //图片右上角
-    0,
-    0, //图片左下角
-    1,
-    0, //图片右下角
-]);
-// 设置几何体attributes属性的位置normal属性
-boxGeometry.attributes.uv = new THREE.BufferAttribute(uvs, 2); //2个为一组,表示一个顶点的纹理坐标
+// 设置阵列模式
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+// uv两个方向纹理重复数量
+texture.repeat.set(12, 12); //注意选择合适的阵列数量
+
+
+// 旋转矩形平面
+boxMesh.rotateX(-Math.PI / 2);
         </pre>
     </body>
 </html>
