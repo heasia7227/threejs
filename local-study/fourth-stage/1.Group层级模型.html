@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第一课 Group层级模型</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/1.js"></script>
+    </head>
+    <body>
+        <pre>
+const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+const mesh2 = boxMesh.clone();
+mesh2.position.x = 100;
+
+const group = new THREE.Group();
+group.add(boxMesh);
+group.add(mesh2);
+
+group.translateY(100);
+
+scene.add(group);
+
+console.log("查看group的子对象", group.children);
+console.log("查看scene的子对象", scene.children);
+        </pre>
+    </body>
+</html>
