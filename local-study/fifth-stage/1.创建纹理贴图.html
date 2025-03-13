@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第一课 创建纹理贴图</title>
+        <style>
+            body {
+                overflow: hidden;
+                margin: 0px;
+            }
+        </style>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/1.js"></script>
+    </head>
+    <body>
+        <pre style="position: fixed; top: 0; left: 0; color: #fff">
+// 纹理加载器
+const textureLoader = new THREE.TextureLoader();
+// .load()方法加载图像，返回一个纹理对象Texture
+const texture = textureLoader.load("./textures/earth.jpg");
+// 注意最新版本，webgl渲染器默认编码方式已经改变，为了避免色差，纹理对象编码方式要修改为THREE.SRGBColorSpace
+texture.colorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
+
+// 几何体材质，漫反射网格材质
+const boxMaterial = new THREE.MeshLambertMaterial({
+    // color: 0xff0000,
+    map: texture,
+});
+        </pre>
+    </body>
+</html>
