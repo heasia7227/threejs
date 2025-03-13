@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>入门Three.js 第四课 克隆.clone()和复制.copy()</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/4.js"></script>
+    </head>
+    <body>
+        <pre>
+// 克隆
+const mesh2 = boxMesh.clone();
+mesh2.geometry = boxMesh.geometry.clone();
+mesh2.material = boxMesh.material.clone();
+mesh2.position.x = 100;
+mesh2.material.color.set("#00ff00");
+scene.add(mesh2);
+
+// 拷贝
+boxMesh.position.copy(mesh2.position); //1. 第1步位置重合
+boxMesh.position.y += 100; //1. 第2步mesh在原来y的基础上增加100
+
+// 拷贝
+function render() {
+    boxMesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
+    mesh2.rotation.copy(boxMesh.rotation);
+
+    renderer.render(scene, camera); //执行渲染操作
+    requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
+}
+render();
+        </pre>
+    </body>
+</html>
