@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-        <title>入门Three.js 第四课 背景透明png</title>
+        <title>入门Three.js 第五课 UV动画</title>
         <style>
             body {
                 overflow: hidden;
@@ -18,23 +18,23 @@
                 }
             }
         </script>
-        <script type="module" src="./js/4.js"></script>
+        <script type="module" src="./js/5.js"></script>
     </head>
     <body>
         <pre style="position: fixed; top: 0; left: 0; color: #fff">
-const texture = textureLoader.load("./textures/decal-diffuse.png");
+// 如果是U动画，需要设置wrapS重复
+texture.wrapS = THREE.RepeatWrapping;
 
-// 几何体材质，漫反射网格材质
-const boxMaterial = new THREE.MeshLambertMaterial({
-    // color: 0xff0000,
-    map: texture,
-    transparent: true,  //开启透明
-});
+// 如果是V动画，需要设置warpT重复
+texture.wrapT = THREE.RepeatWrapping;
 
-// 添加一个辅助网格地面
-const gridHelper = new THREE.GridHelper(300, 25, 0x004444, 0x004444);
-gridHelper.position.y = -1;
-scene.add(gridHelper);
+// 渲染函数
+function render() {
+    texture.offset.x += 0.001; // U动画
+    renderer.render(scene, camera); //执行渲染操作
+    requestAnimationFrame(render); //请求再次执行渲染函数render，渲染下一帧
+}
+render();
         </pre>
     </body>
 </html>
