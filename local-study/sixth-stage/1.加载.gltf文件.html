@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>进阶Three.js 第一课 加载.gltf文件</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../js/three.module.js",
+                    "three/addons/": "../js/jsm/"
+                }
+            }
+        </script>
+        <script type="module" src="./js/1.js"></script>
+    </head>
+    <body>
+        <pre style="position: fixed; top: 0; left: 0; color: #fff">
+// 创建GLTF加载器对象
+const loader = new GLTFLoader();
+loader.load("../../three.js-r174/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb", function (gltf) {
+    console.log("gltf对象场景属性", gltf.scene);
+    // 返回的场景对象gltf.scene插入到threejs场景中
+    scene.add(gltf.scene);
+});
+
+// 设置相机位置
+camera.position.set(-0.1, 5.6, 20.8);
+
+//解决加载gltf格式模型纹理贴图和原图不一样问题
+renderer.outputEncoding = THREE.sRGBEncoding;
+//新版本，加载gltf，不需要执行下面代码解决颜色偏差
+renderer.outputColorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
+        </pre>
+    </body>
+</html>
