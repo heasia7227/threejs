@@ -52,11 +52,6 @@ const earthGroup = (sunModel) => {
         earthGroup.rotation.y += 0.001;
     };
 
-    // 月球自转
-    const moonAutoroatation = () => {
-        moon.rotation.y += 0.01;
-    };
-
     // 月球公转
     const moonRevolution = () => {
         // 月球绕地球公转
@@ -67,6 +62,9 @@ const earthGroup = (sunModel) => {
         // 计算月球的新位置
         moon.position.x = Math.sin(time * speed) * orbitRadius;
         moon.position.z = Math.cos(time * speed) * orbitRadius;
+
+        // 因为潮汐锁定，月球公转周期和自转周期一样。有一面永远对着地球
+        moon.lookAt(earth.position);
     };
 
     return { group, earthAutoroatation, moonRevolution, moonAutoroatation };

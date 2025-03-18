@@ -24,7 +24,10 @@ scene.background = cubeTexture;
 
 // 太阳
 const sun = sunModel();
+// 太阳光
 scene.add(sun.sunLight);
+// 太阳球体
+scene.add(sun.sunMesh);
 
 // 地球
 const earth = earthGroup(sun);
@@ -48,8 +51,7 @@ controls.maxDistance = 50;
 // 动画函数
 function animate() {
     earth.earthAutoroatation(); // 地球自转
-    earth.moonAutoroatation(); // 月球自转
-    earth.moonRevolution(); // 月球公转
+    earth.moonRevolution(); // 月球公转和自转
     renderer.render(scene, camera); //执行渲染操作
 }
 
