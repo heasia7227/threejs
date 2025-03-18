@@ -15,6 +15,7 @@ import {
     cameraPosition,
     bumpMap,
 } from "three/tsl";
+import { moonModel } from "./moonModel.js";
 
 // 大气层白天颜色
 const atmosphereDayColor = uniform(color("#4db2ff"));
@@ -24,6 +25,52 @@ const roughnessLow = uniform(0.25);
 const roughnessHigh = uniform(0.35);
 // 贴图，加载器
 const textureLoader = new THREE.TextureLoader().setPath("./textures/");
+
+const earthGroup = (sunModel) => {
+    const group = new THREE.Group();
+
+    const earthGroup = new THREE.Group();
+    // 地球
+    const earth = earthModel(sunModel);
+    earthGroup.add(earth);
+
+    // 地球大气层
+    const atmosphere = atmosphereModel(sunModel, earth);
+    earthGroup.add(atmosphere);
+
+    group.add(earthGroup);
+
+    // 月亮
+    const moon = moonModel();
+    // 设置月球的初始位置
+    earth.position.copy(moon.position);
+    moon.position.x += 2; // 月球距离地球2个单位
+    group.add(moon);
+
+    // 地球自转
+    const earthAutoroatation = () => {
+        earthGroup.rotation.y += 0.001;
+    };
+
+    // 月球自转
+    const moonAutoroatation = () => {
+        moon.rotation.y += 0.01;
+    };
+
+    // 月球公转
+    const moonRevolution = () => {
+        // 月球绕地球公转
+        const time = Date.now() * 0.001; // 获取当前时间（秒）
+        const orbitRadius = 2; // 公转半径
+        const speed = 1; // 公转速度
+
+        // 计算月球的新位置
+        moon.position.x = Math.sin(time * speed) * orbitRadius;
+        moon.position.z = Math.cos(time * speed) * orbitRadius;
+    };
+
+    return { group, earthAutoroatation, moonRevolution, moonAutoroatation };
+};
 
 // 地球模型
 const earthModel = (sunModel) => {
@@ -186,4 +233,4 @@ const getTextureNormal = (bumpRoughnessClouds) => {
     return normalNode;
 };
 
-export { earthModel, atmosphereModel };
+export { earthGroup };

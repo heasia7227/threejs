@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { earthModel, atmosphereModel } from "./earthModel.js";
+import { earthGroup } from "./earthModel.js";
 import { sunModel } from "./sunModel.js";
 
 // Canvas 容器
@@ -8,25 +8,31 @@ const container = document.getElementById("container");
 
 // 3D场景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000); // 渲染场景背景
+// scene.background = new THREE.Color(0x000000); // 渲染场景背景
+// 定义立方体贴图的路径
+const cubeTextureLoader = new THREE.CubeTextureLoader().setPath("./textures/cube/");
+const cubeTexture = cubeTextureLoader.load([
+    "dark-s_px.jpg", // 右
+    "dark-s_nx.jpg", // 左
+    "dark-s_py.jpg", // 上
+    "dark-s_ny.jpg", // 下
+    "dark-s_pz.jpg", // 前
+    "dark-s_nz.jpg", // 后
+]);
+// 设置场景背景
+scene.background = cubeTexture;
 
 // 太阳
 const sun = sunModel();
 scene.add(sun.sunLight);
 
-const earthGroup = new THREE.Group();
 // 地球
-const earth = earthModel(sun);
-earthGroup.add(earth);
-// 地球大气层
-const atmosphere = atmosphereModel(sun, earth);
-earthGroup.add(atmosphere);
-
-scene.add(earthGroup);
+const earth = earthGroup(sun);
+scene.add(earth.group);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(4.5, 2, 3);
+camera.position.set(8, 3.5, 5);
 
 const renderer = new THREE.WebGPURenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -41,8 +47,9 @@ controls.maxDistance = 50;
 
 // 动画函数
 function animate() {
-    earthGroup.rotation.y += 0.001;
-
+    earth.earthAutoroatation(); // 地球自转
+    earth.moonAutoroatation(); // 月球自转
+    earth.moonRevolution(); // 月球公转
     renderer.render(scene, camera); //执行渲染操作
 }
 
