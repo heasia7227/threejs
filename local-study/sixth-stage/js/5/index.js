@@ -26,8 +26,6 @@ scene.background = cubeTexture;
 const sun = sunModel();
 // 太阳光
 scene.add(sun.sunLight);
-// 太阳球体
-scene.add(sun.sunMesh);
 
 // 地球
 const earth = earthGroup(sun);

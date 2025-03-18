@@ -67,7 +67,7 @@ const earthGroup = (sunModel) => {
         moon.lookAt(earth.position);
     };
 
-    return { group, earthAutoroatation, moonRevolution, moonAutoroatation };
+    return { group, earthAutoroatation, moonRevolution };
 };
 
 // 地球模型
