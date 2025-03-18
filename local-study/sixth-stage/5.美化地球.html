@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-        <title>进阶Three.js 第四课 CS游戏中的人物前进和跳跃</title>
+        <title>进阶Three.js 第五课 美化地球</title>
         <style>
             body {
                 overflow: hidden;
@@ -13,19 +13,17 @@
         <script type="importmap">
             {
                 "imports": {
-                    "three": "../js/three.module.js",
-                    "three/addons/": "../js/jsm/"
+                    "three": "../js/three.webgpu.js",
+                    "three/addons/": "../js/jsm/",
+                    "three/webgpu": "../js/three.webgpu.js",
+                    "three/tsl": "../js/three.tsl.js"
                 }
             }
         </script>
-        <script type="module" src="./js/4/index.js"></script>
+        <script type="module" src="./js/5/index.js"></script>
     </head>
     <body>
-        <pre style="position: fixed; top: 50px; left: 0; color: #fff">
-Octree threejs demo - basic collisions with static triangle mesh
-MOUSE to look around and to throw balls
-WASD to move and SPACE to jump
-        </pre>
+        <pre style="position: fixed; top: 50px; left: 0; color: #fff"></pre>
         <div id="container"></div>
     </body>
 </html>
