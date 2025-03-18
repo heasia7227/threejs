@@ -33,8 +33,6 @@ const earthModel = (sunModel) => {
     // 地球网格模型
     const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
 
-    earthMesh.geometry;
-
     // 设置地球的倾斜角度
     earthMesh.rotateX(-Math.PI / 7.6);
 

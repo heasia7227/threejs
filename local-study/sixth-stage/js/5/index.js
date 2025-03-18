@@ -35,6 +35,9 @@ renderer.setAnimationLoop(animate);
 container.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.minDistance = 0.1;
+controls.maxDistance = 50;
 
 // 动画函数
 function animate() {
