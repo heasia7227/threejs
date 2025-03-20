@@ -35,7 +35,7 @@ const earthGroup = (sunModel) => {
 
     // 地球自转
     const earthAutoroatation = () => {
-        earth.rotation.y += 0.001;
+        earth.rotation.y += 0.001; // 地球逆时针转
     };
 
     // 地球公转

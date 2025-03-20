@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { earthGroup } from "./earthModel.js";
+import { venusGroup } from "./venusModel.js";
 import { sunModel } from "./sunModel.js";
 
 // Canvas 容器
@@ -29,6 +30,10 @@ Object.values(sun.sunLights).forEach((item) => {
 });
 // 太阳球体
 scene.add(sun.sunMesh);
+
+// 金星
+const venus = venusGroup(sun);
+scene.add(venus.group);
 
 // 地球
 const earth = earthGroup(sun);
@@ -62,6 +67,8 @@ function animate() {
     earth.earthAutoroatation(); // 地球自转
     earth.earthRevolution(); // 地球公转
     earth.moonRevolution(); // 月球公转和自转
+    venus.venusAutoroatation(); // 金星自转
+    venus.venusRevolution(); // 金星公转
     renderer.render(scene, camera); //执行渲染操作
 }
 

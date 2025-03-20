@@ -8,7 +8,9 @@ const sunModel = () => {
     const sunShineEarth = new THREE.DirectionalLight("#ffffff", 5);
     // 太阳照射月亮
     const sunShineMoon = sunShineEarth.clone();
-    const sunLights = { sunShineEarth, sunShineMoon };
+    // 太阳照射金星
+    const sunShineVenus = sunShineEarth.clone();
+    const sunLights = { sunShineEarth, sunShineMoon, sunShineVenus };
     Object.keys(sunLights).forEach((key) => {
         sunLights[key].position.set(sunPosition.x, sunPosition.y, sunPosition.z);
     });
