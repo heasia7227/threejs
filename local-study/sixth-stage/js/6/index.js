@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import * as ThreeWebgpu from "three/webgpu";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { earthGroup } from "./earthModel.js";
 import { sunModel } from "./sunModel.js";
@@ -9,7 +8,6 @@ const container = document.getElementById("container");
 
 // 3D场景
 const scene = new THREE.Scene();
-// scene.background = new THREE.Color(0x000000); // 渲染场景背景
 // 定义立方体贴图的路径
 const cubeTextureLoader = new THREE.CubeTextureLoader().setPath("./textures/cube/");
 const cubeTexture = cubeTextureLoader.load([
@@ -36,17 +34,17 @@ scene.add(sun.sunMesh);
 const earth = earthGroup(sun);
 scene.add(earth.group);
 
-// 辅助坐标系
-const axesHelper = new THREE.AxesHelper(150);
-// 把坐标系加入到场景中
-scene.add(axesHelper);
+// // 辅助坐标系
+// const axesHelper = new THREE.AxesHelper(150);
+// // 把坐标系加入到场景中
+// scene.add(axesHelper);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(81, 90, 98);
 camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 
-const renderer = new ThreeWebgpu.WebGPURenderer();
+const renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
