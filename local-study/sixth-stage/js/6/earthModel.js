@@ -17,14 +17,12 @@ const earthGroup = (sunModel) => {
     const earth = earthModel();
     // 设置地球的倾斜角度
     earth.rotateX(-Math.PI / 7.6);
-    sunModel.sunLights.sunShineEarth.target = earth; // 设置地球的光源
     // 设置地球的位置
     earth.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     earthGroup.add(earth);
 
     // 月亮
     const { group: moonG, moonRevolution } = moonGroup(earth);
-    sunModel.sunLights.sunShineMoon.target = moonG; // 设置月亮的光源
     earthGroup.add(moonG);
 
     group.add(earthGroup);

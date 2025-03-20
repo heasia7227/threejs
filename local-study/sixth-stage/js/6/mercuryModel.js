@@ -1,0 +1,80 @@
+import * as THREE from "three";
+
+// 轨迹线上的点数
+const numPoints = 100;
+// 椭圆轨道参数
+const semiMajorAxis = 10; // 半长轴 (a)
+const semiMinorAxis = 8; // 半短轴 (b)
+
+const mercuryGroup = (sunModel) => {
+    const group = new THREE.Group();
+
+    // 水星球体
+    const mercury = mercuryModel();
+    mercury.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    group.add(mercury);
+
+    // 水星轨迹
+    const track = mercuryTrack(sunModel.sunPosition);
+    group.add(track);
+
+    // 水星自转
+    const mercuryAutoroatation = () => {
+        mercury.rotation.y += 0.005;
+    };
+
+    // 水星公转
+    const mercuryRevolution = () => {
+        const time = Date.now() * 0.001; // 获取当前时间（秒）
+        const angle = time * 0.5; // 公转角度（控制速度）
+
+        // 计算水星在椭圆轨道上的位置
+        mercury.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+        mercury.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
+    };
+
+    return { group, mercuryRevolution, mercuryAutoroatation };
+};
+
+// 水星模型
+const mercuryModel = () => {
+    // 创建水星几何体
+    const mercuryGeometry = new THREE.SphereGeometry(0.38, 64, 64); // 水星半径为0.38
+
+    // 纹理加载器
+    const mercuryTextureLoader = new THREE.TextureLoader().setPath("./textures/");
+    // 创建水星材质
+    const mercuryTexture = mercuryTextureLoader.load("mercury_bg.jpg");
+    const mercuryMaterial = new THREE.MeshPhongMaterial({ map: mercuryTexture });
+
+    // 创建水星网格
+    const mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
+
+    return mercury;
+};
+
+// 水星轨迹
+const mercuryTrack = (sunPosition) => {
+    const orbitPoints = [];
+    for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * Math.PI * 2;
+        orbitPoints.push(
+            semiMajorAxis * Math.cos(angle), // x
+            0, // y
+            semiMinorAxis * Math.sin(angle) // z
+        );
+    }
+
+    const orbitGeometry = new THREE.BufferGeometry();
+    orbitGeometry.setAttribute("position", new THREE.Float32BufferAttribute(orbitPoints, 3));
+
+    const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x888888 });
+    const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
+
+    orbitLine.position.x += sunPosition.x;
+    orbitLine.position.z += sunPosition.z;
+
+    return orbitLine;
+};
+
+export { mercuryGroup };

@@ -4,16 +4,9 @@ const sunModel = () => {
     // 太阳位置
     const sunPosition = new THREE.Vector3(0, 0, 10);
 
-    // 太阳照射地球
-    const sunShineEarth = new THREE.DirectionalLight("#ffffff", 5);
-    // 太阳照射月亮
-    const sunShineMoon = sunShineEarth.clone();
-    // 太阳照射金星
-    const sunShineVenus = sunShineEarth.clone();
-    const sunLights = { sunShineEarth, sunShineMoon, sunShineVenus };
-    Object.keys(sunLights).forEach((key) => {
-        sunLights[key].position.set(sunPosition.x, sunPosition.y, sunPosition.z);
-    });
+    // 太阳照射, 使用点光源模拟
+    const sunLight = new THREE.PointLight("#ffffff", 10, 1000, 0);
+    sunLight.position.set(sunPosition.x, sunPosition.y, sunPosition.z);
 
     // 纹理加载器
     const sunTextureLoader = new THREE.TextureLoader().setPath("./textures/");
@@ -31,7 +24,7 @@ const sunModel = () => {
     const sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
     sunMesh.position.set(sunPosition.x, sunPosition.y + 1, sunPosition.z);
 
-    return { sunMesh, sunLights, sunPosition };
+    return { sunMesh, sunLight, sunPosition };
 };
 
 export { sunModel };
