@@ -1,7 +1,5 @@
 import * as THREE from "three";
 
-// 月球公转半径
-const orbitRadius = 2;
 // 月球轨迹线上的点数
 const numPoints = 100;
 const semiMajorAxis = 4; // 半长轴 (a)
@@ -45,7 +43,7 @@ const moonModel = (earth) => {
     const moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
     // 设置月球的初始位置
     earth.position.copy(moonMesh.position);
-    moonMesh.position.x += 2; // 月球距离地球2个单位
+    moonMesh.position.x += semiMajorAxis;
 
     return moonMesh;
 };

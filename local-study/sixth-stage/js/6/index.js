@@ -25,8 +25,10 @@ scene.background = cubeTexture;
 
 // 太阳
 const sun = sunModel();
-// 太阳光
-scene.add(sun.sunLight);
+Object.values(sun.sunLights).forEach((item) => {
+    // 太阳光
+    scene.add(item);
+});
 // 太阳球体
 scene.add(sun.sunMesh);
 
@@ -34,10 +36,10 @@ scene.add(sun.sunMesh);
 const earth = earthGroup(sun);
 scene.add(earth.group);
 
-// // 辅助坐标系
-// const axesHelper = new THREE.AxesHelper(150);
-// // 把坐标系加入到场景中
-// scene.add(axesHelper);
+// 辅助坐标系
+const axesHelper = new THREE.AxesHelper(150);
+// 把坐标系加入到场景中
+scene.add(axesHelper);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);

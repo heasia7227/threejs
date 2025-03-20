@@ -15,6 +15,7 @@ import {
     positionWorld,
     cameraPosition,
     bumpMap,
+    normalize,
 } from "three/tsl";
 import { moonGroup } from "./moonModel.js";
 
@@ -34,26 +35,31 @@ const semiMajorAxis = 28;
 const semiMinorAxis = 20;
 
 const earthGroup = (sunModel) => {
+    // 计算太阳照射地球的方向
+    const sunOrientation = normalWorld.dot(normalize(sunModel.sunLights.sunShineEarth.position)).toVar();
+
     const group = new THREE.Group();
 
     const earthEcology = new THREE.Group();
     const earthGroup = new THREE.Group();
     // 地球
-    const earth = earthModel(sunModel);
+    const earth = earthModel(sunOrientation);
     earthGroup.add(earth);
 
     // 地球大气层
-    const atmosphere = atmosphereModel(sunModel, earth);
+    const atmosphere = atmosphereModel(sunOrientation, earth);
     earthGroup.add(atmosphere);
 
     // 设置地球的倾斜角度
     earthGroup.rotateX(-Math.PI / 7.6);
+    sunModel.sunLights.sunShineEarth.target = earthGroup; // 设置地球的光源
     // 设置地球的位置
     earthEcology.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     earthEcology.add(earthGroup);
 
     // 月亮
     const { group: moonG, moonRevolution } = moonGroup(earth);
+    sunModel.sunLights.sunShineMoon.target = moonG; // 设置月亮的光源
     earthEcology.add(moonG);
     group.add(earthEcology);
 
@@ -75,13 +81,30 @@ const earthGroup = (sunModel) => {
         // 计算地球在椭圆轨道上的位置
         earthEcology.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
         earthEcology.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
+
+        // // 计算太阳照射地球的方向
+        // const sunOrientation = normalWorld.dot(normalize(sunModel.sunLights.sunShineEarth.position)).toVar();
+
+        // const bumpRoughnessClouds = getBumpRoughnessClouds();
+        // earth.material.colorNode = getTextureDay(bumpRoughnessClouds.cloudsStrength); // 白天的贴图
+        // earth.material.outputNode = getTextureNight(sunOrientation); // 夜晚的贴图
+        // earth.material.roughnessNode = getTextureRoughness(bumpRoughnessClouds); // 粗糙度的贴图
+        // earth.material.normalNode = getTextureNormal(bumpRoughnessClouds); // 法线的贴图
+
+        // const fresnel = getFresnel();
+        // let alpha = fresnel.remap(0.73, 1, 1, 0).pow(3);
+        // alpha = alpha.mul(sunOrientation.smoothstep(-0.5, 1));
+
+        // // 大气层颜色
+        // const atmosphereColor = getAtmosphereColor(sunOrientation);
+        // atmosphere.material.outputNode = vec4(atmosphereColor, alpha);
     };
 
     return { group, earthAutoroatation, earthRevolution, moonRevolution };
 };
 
 // 地球模型
-const earthModel = (sunModel) => {
+const earthModel = (sunOrientation) => {
     // 地球
     const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
 
@@ -93,7 +116,7 @@ const earthModel = (sunModel) => {
     const bumpRoughnessClouds = getBumpRoughnessClouds();
 
     earthMaterial.colorNode = getTextureDay(bumpRoughnessClouds.cloudsStrength); // 白天的贴图
-    earthMaterial.outputNode = getTextureNight(sunModel); // 夜晚的贴图
+    earthMaterial.outputNode = getTextureNight(sunOrientation); // 夜晚的贴图
     earthMaterial.roughnessNode = getTextureRoughness(bumpRoughnessClouds); // 粗糙度的贴图
     earthMaterial.normalNode = getTextureNormal(bumpRoughnessClouds); // 法线的贴图
 
@@ -104,15 +127,15 @@ const earthModel = (sunModel) => {
 };
 
 // 大气层模型
-const atmosphereModel = (sunModel, earthModel) => {
+const atmosphereModel = (sunOrientation, earthModel) => {
     const atmosphereMaterial = new ThreeWebgpu.MeshBasicNodeMaterial({ side: THREE.BackSide, transparent: true });
 
     const fresnel = getFresnel();
     let alpha = fresnel.remap(0.73, 1, 1, 0).pow(3);
-    alpha = alpha.mul(sunModel.sunOrientation.smoothstep(-0.5, 1));
+    alpha = alpha.mul(sunOrientation.smoothstep(-0.5, 1));
 
     // 大气层颜色
-    const atmosphereColor = getAtmosphereColor(sunModel);
+    const atmosphereColor = getAtmosphereColor(sunOrientation);
     atmosphereMaterial.outputNode = vec4(atmosphereColor, alpha);
 
     const atmosphereMesh = new THREE.Mesh(earthModel.geometry, atmosphereMaterial);
@@ -153,10 +176,7 @@ const getFresnel = () => {
 };
 
 // 大气层颜色
-const getAtmosphereColor = (sunModel) => {
-    // 太阳光的方向
-    const sunOrientation = sunModel.sunOrientation;
-
+const getAtmosphereColor = (sunOrientation) => {
     // 大气层颜色
     const atmosphereColor = mix(atmosphereTwilightColor, atmosphereDayColor, sunOrientation.smoothstep(-0.25, 0.75));
 
@@ -214,21 +234,21 @@ const getTextureDay = (cloudsStrength) => {
 };
 
 // 夜晚的贴图
-const getTextureNight = (sunModel) => {
+const getTextureNight = (sunOrientation) => {
     // 贴图，夜晚
     const nightTexture = getTextureNightJpg();
 
     // 大气层颜色
-    const atmosphereColor = getAtmosphereColor(sunModel);
+    const atmosphereColor = getAtmosphereColor(sunOrientation);
 
     const fresnel = getFresnel();
     // 夜晚贴图
     const night = texture(nightTexture);
     // 太阳光白天的影响力
-    const sunDayStrength = sunModel.sunOrientation.smoothstep(-0.25, 0.5);
+    const sunDayStrength = sunOrientation.smoothstep(-0.25, 0.5);
 
     // 大气层白天的影响力
-    const atmosphereDayStrength = sunModel.sunOrientation.smoothstep(-0.5, 1);
+    const atmosphereDayStrength = sunOrientation.smoothstep(-0.5, 1);
     const atmosphereMix = atmosphereDayStrength.mul(fresnel.pow(2)).clamp(0, 1);
 
     let finalOutput = mix(night.rgb, output.rgb, sunDayStrength);
