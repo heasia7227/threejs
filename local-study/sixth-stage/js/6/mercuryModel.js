@@ -45,7 +45,9 @@ const mercuryModel = () => {
     const mercuryTextureLoader = new THREE.TextureLoader().setPath("./textures/");
     // 创建水星材质
     const mercuryTexture = mercuryTextureLoader.load("mercury_bg.jpg");
-    const mercuryMaterial = new THREE.MeshPhongMaterial({ map: mercuryTexture });
+    mercuryTexture.colorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
+    mercuryTexture.wrapS = THREE.RepeatWrapping;
+    const mercuryMaterial = new THREE.MeshStandardMaterial({ map: mercuryTexture });
 
     // 创建水星网格
     const mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);

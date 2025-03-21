@@ -68,7 +68,7 @@ const earthModel = () => {
     const earthNormalMap = earthTextureLoader.load("earth_normal_2048.jpg");
     const earthSpecularMap = earthTextureLoader.load("earth_specular_2048.jpg");
 
-    const earthMaterial = new THREE.MeshPhongMaterial({
+    const earthMaterial = new THREE.MeshStandardMaterial({
         map: earthTexture,
         normalMap: earthNormalMap,
         specularMap: earthSpecularMap,

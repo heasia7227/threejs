@@ -52,7 +52,9 @@ const venusModel = () => {
     const venusTextureLoader = new THREE.TextureLoader().setPath("./textures/");
     // 创建金星材质
     const venusTexture = venusTextureLoader.load("venus_surface.jpg"); // 加载金星纹理
-    const venusMaterial = new THREE.MeshPhongMaterial({ map: venusTexture });
+    venusTexture.colorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
+    venusTexture.wrapS = THREE.RepeatWrapping;
+    const venusMaterial = new THREE.MeshStandardMaterial({ map: venusTexture });
 
     // 创建金星网格
     const venus = new THREE.Mesh(venusGeometry, venusMaterial);

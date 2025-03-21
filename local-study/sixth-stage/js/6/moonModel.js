@@ -36,7 +36,7 @@ const moonModel = (earth) => {
     moonTexture.colorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
     moonTexture.wrapS = THREE.RepeatWrapping;
 
-    const moonMaterial = new THREE.MeshLambertMaterial({
+    const moonMaterial = new THREE.MeshStandardMaterial({
         map: moonTexture,
     });
     // 网格模型

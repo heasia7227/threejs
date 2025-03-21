@@ -45,7 +45,9 @@ const marsModel = () => {
     const marsTextureLoader = new THREE.TextureLoader().setPath("./textures/");
     // 创建火星材质
     const marsTexture = marsTextureLoader.load("mars_bg.jpg");
-    const marsMaterial = new THREE.MeshPhongMaterial({ map: marsTexture });
+    marsTexture.colorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
+    marsTexture.wrapS = THREE.RepeatWrapping;
+    const marsMaterial = new THREE.MeshStandardMaterial({ map: marsTexture });
 
     // 创建火星网格
     const mars = new THREE.Mesh(marsGeometry, marsMaterial);

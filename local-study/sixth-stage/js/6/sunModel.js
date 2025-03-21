@@ -5,7 +5,7 @@ const sunModel = () => {
     const sunPosition = new THREE.Vector3(0, 0, 10);
 
     // 太阳照射, 使用点光源模拟
-    const sunLight = new THREE.PointLight("#ffffff", 10, 1000, 0);
+    const sunLight = new THREE.PointLight("#ffffff", 5, 1000, 0);
     sunLight.position.set(sunPosition.x, sunPosition.y, sunPosition.z);
 
     // 纹理加载器
