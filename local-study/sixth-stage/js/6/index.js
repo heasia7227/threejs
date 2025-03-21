@@ -4,6 +4,7 @@ import { earthGroup } from "./earthModel.js";
 import { venusGroup } from "./venusModel.js";
 import { mercuryGroup } from "./mercuryModel.js";
 import { sunModel } from "./sunModel.js";
+import { marsGroup } from "./marsModel.js";
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -42,6 +43,10 @@ scene.add(venus.group);
 const earth = earthGroup(sun);
 scene.add(earth.group);
 
+// 火星
+const mars = marsGroup(sun);
+scene.add(mars.group);
+
 // // 辅助坐标系
 // const axesHelper = new THREE.AxesHelper(150);
 // // 把坐标系加入到场景中
@@ -74,6 +79,8 @@ function animate() {
     venus.venusRevolution(); // 金星公转
     mercury.mercuryAutoroatation(); //水星自转
     mercury.mercuryRevolution(); // 水星公转
+    mars.marsAutoroatation(); // 火星自转
+    mars.marsRevolution(); // 火星公转
     renderer.render(scene, camera); //执行渲染操作
 }
 

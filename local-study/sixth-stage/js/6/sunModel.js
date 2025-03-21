@@ -15,7 +15,7 @@ const sunModel = () => {
     sunTexture.wrapS = THREE.RepeatWrapping;
 
     // 创建太阳
-    const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+    const sunGeometry = new THREE.SphereGeometry(5, 64, 64);
     const sunMaterial = new THREE.MeshBasicMaterial({
         map: sunTexture,
         emissive: 0xffff00, // 自发光颜色
