@@ -6,6 +6,7 @@ import { mercuryGroup } from "./mercuryModel.js";
 import { sunModel } from "./sunModel.js";
 import { marsGroup } from "./marsModel.js";
 import { jupiterGroup } from "./jupiterModel.js";
+import { saturnGroup } from "./saturnModel.js";
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -25,12 +26,15 @@ const cubeTexture = cubeTextureLoader.load([
 // 设置场景背景
 scene.background = cubeTexture;
 
+const ambientLight = new THREE.AmbientLight(0x666666); // 柔和的环境光
+scene.add(ambientLight);
+
 // 太阳
 const sun = sunModel();
 // 太阳光
 scene.add(sun.sunLight);
 // 太阳球体
-scene.add(sun.sunMesh);
+// scene.add(sun.sunMesh);
 
 // 水星
 const mercury = mercuryGroup(sun);
@@ -52,6 +56,13 @@ scene.add(mars.group);
 const jupiter = jupiterGroup(sun);
 scene.add(jupiter.group);
 
+// 土星
+const saturn = saturnGroup(sun);
+scene.add(saturn.group);
+
+const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
+scene.add(pointLightHelper);
+
 // // 辅助坐标系
 // const axesHelper = new THREE.AxesHelper(150);
 // // 把坐标系加入到场景中
@@ -59,13 +70,15 @@ scene.add(jupiter.group);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(81, 90, 98);
+camera.position.set(135, 150, 156);
 camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
+renderer.shadowMap.enabled = true; // 启用阴影映射
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 使用软阴影
 container.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -88,6 +101,8 @@ function animate() {
     mars.marsRevolution(); // 火星公转
     jupiter.jupiterAutoroatation(); // 木星自转
     jupiter.jupiterRevolution(); // 木星公转
+    saturn.saturnAutoroatation(); // 土星自转
+    saturn.saturnRevolution(); // 土星公转
     renderer.render(scene, camera); //执行渲染操作
 }
 

@@ -5,7 +5,12 @@ const sunModel = () => {
     const sunPosition = new THREE.Vector3(0, 0, 10);
 
     // 太阳照射, 使用点光源模拟
-    const sunLight = new THREE.PointLight("#ffffff", 5, 1000, 0);
+    const sunLight = new THREE.PointLight("#ffffff", 5, 10000, 0);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 1024; // 阴影贴图宽度
+    sunLight.shadow.mapSize.height = 1024; // 阴影贴图高度
+    sunLight.shadow.camera.near = 0.5; // 阴影相机近裁剪面
+    sunLight.shadow.camera.far = 10000; // 阴影相机远裁剪面
     sunLight.position.set(sunPosition.x, sunPosition.y, sunPosition.z);
 
     // 纹理加载器
