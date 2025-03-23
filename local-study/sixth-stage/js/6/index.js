@@ -9,6 +9,7 @@ import { jupiterGroup } from "./models/jupiter.js";
 import { saturnGroup } from "./models/saturn.js";
 import { uranusGroup } from "./models/uranus.js";
 import { neptuneGroup } from "./models/neptune.js";
+import { plutoGroup } from "./models/pluto.js";
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -70,6 +71,10 @@ scene.add(uranus.group);
 const neptune = neptuneGroup(sun);
 scene.add(neptune.group);
 
+// 冥王星
+const pluto = plutoGroup(sun);
+scene.add(pluto.group);
+
 // const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
 // scene.add(pointLightHelper);
 
@@ -110,6 +115,7 @@ function animate() {
     saturn.animate(); // 土星运动
     uranus.animate(); // 天王星运动
     neptune.animate(); // 海王星运动
+    pluto.animate(); // 冥王星运动
     renderer.render(scene, camera); //执行渲染操作
 }
 
