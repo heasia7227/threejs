@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { earthGroup } from "./earthModel.js";
-import { venusGroup } from "./venusModel.js";
-import { mercuryGroup } from "./mercuryModel.js";
-import { sunModel } from "./sunModel.js";
-import { marsGroup } from "./marsModel.js";
-import { jupiterGroup } from "./jupiterModel.js";
-import { saturnGroup } from "./saturnModel.js";
+import { earthGroup } from "./models/earth.js";
+import { venusGroup } from "./models/venus.js";
+import { mercuryGroup } from "./models/mercury.js";
+import { sunModel } from "./models/sun.js";
+import { marsGroup } from "./models/mars.js";
+import { jupiterGroup } from "./models/jupiter.js";
+import { saturnGroup } from "./models/saturn.js";
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -34,7 +34,7 @@ const sun = sunModel();
 // 太阳光
 scene.add(sun.sunLight);
 // 太阳球体
-// scene.add(sun.sunMesh);
+scene.add(sun.sunMesh);
 
 // 水星
 const mercury = mercuryGroup(sun);
@@ -60,8 +60,8 @@ scene.add(jupiter.group);
 const saturn = saturnGroup(sun);
 scene.add(saturn.group);
 
-const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
-scene.add(pointLightHelper);
+// const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
+// scene.add(pointLightHelper);
 
 // // 辅助坐标系
 // const axesHelper = new THREE.AxesHelper(150);
@@ -70,7 +70,7 @@ scene.add(pointLightHelper);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(135, 150, 156);
+camera.position.set(29, 125, 223);
 camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 
 const renderer = new THREE.WebGLRenderer();
@@ -90,6 +90,8 @@ controls.update();
 
 // 动画函数
 function animate() {
+    // console.log("camera: ", camera.position);
+
     earth.earthAutoroatation(); // 地球自转
     earth.earthRevolution(); // 地球公转
     earth.moonRevolution(); // 月球公转和自转

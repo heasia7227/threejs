@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { moonGroup } from "./moonModel.js";
+import { moonGroup } from "./moon.js";
 
 // 地球轨迹线上的点数
 const numPoints = 100;
