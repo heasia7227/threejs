@@ -18,22 +18,12 @@ const marsGroup = (sunModel) => {
     const track = marsTrack(sunModel.sunPosition);
     group.add(track);
 
-    // 火星自转
-    const marsAutoroatation = () => {
-        mars.rotation.y += 0.001;
+    const animate = () => {
+        marsAutoroatation(mars);
+        marsRevolution(mars, sunModel);
     };
 
-    // 火星公转
-    const marsRevolution = () => {
-        const time = Date.now() * 0.001; // 获取当前时间（秒）
-        const angle = time * 0.1; // 公转角度（控制速度）
-
-        // 计算火星在椭圆轨道上的位置
-        mars.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
-        mars.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
-    };
-
-    return { group, marsRevolution, marsAutoroatation };
+    return { group, animate };
 };
 
 // 火星模型
@@ -77,6 +67,21 @@ const marsTrack = (sunPosition) => {
     orbitLine.position.z += sunPosition.z;
 
     return orbitLine;
+};
+
+// 火星自转
+const marsAutoroatation = (mars) => {
+    mars.rotation.y += 0.001;
+};
+
+// 火星公转
+const marsRevolution = (mars, sunModel) => {
+    const time = Date.now() * 0.001; // 获取当前时间（秒）
+    const angle = time * 0.1; // 公转角度（控制速度）
+
+    // 计算火星在椭圆轨道上的位置
+    mars.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+    mars.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
 };
 
 export { marsGroup };

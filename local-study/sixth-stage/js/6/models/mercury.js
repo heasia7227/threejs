@@ -18,22 +18,12 @@ const mercuryGroup = (sunModel) => {
     const track = mercuryTrack(sunModel.sunPosition);
     group.add(track);
 
-    // 水星自转
-    const mercuryAutoroatation = () => {
-        mercury.rotation.y += 0.005;
+    const animate = () => {
+        mercuryAutoroatation(mercury);
+        mercuryRevolution(mercury, sunModel);
     };
 
-    // 水星公转
-    const mercuryRevolution = () => {
-        const time = Date.now() * 0.001; // 获取当前时间（秒）
-        const angle = time * 0.5; // 公转角度（控制速度）
-
-        // 计算水星在椭圆轨道上的位置
-        mercury.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
-        mercury.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
-    };
-
-    return { group, mercuryRevolution, mercuryAutoroatation };
+    return { group, animate };
 };
 
 // 水星模型
@@ -77,6 +67,21 @@ const mercuryTrack = (sunPosition) => {
     orbitLine.position.z += sunPosition.z;
 
     return orbitLine;
+};
+
+// 水星自转
+const mercuryAutoroatation = (mercury) => {
+    mercury.rotation.y += 0.005;
+};
+
+// 水星公转
+const mercuryRevolution = (mercury, sunModel) => {
+    const time = Date.now() * 0.001; // 获取当前时间（秒）
+    const angle = time * 0.5; // 公转角度（控制速度）
+
+    // 计算水星在椭圆轨道上的位置
+    mercury.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+    mercury.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
 };
 
 export { mercuryGroup };

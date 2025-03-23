@@ -20,22 +20,12 @@ const saturnGroup = (sunModel) => {
     const track = saturnTrack(sunModel.sunPosition);
     group.add(track);
 
-    // 土星自转
-    const saturnAutoroatation = () => {
-        saturn.rotation.y += 0.001;
+    const animate = () => {
+        saturnAutoroatation(saturn);
+        saturnRevolution(saturn, sunModel);
     };
 
-    // 土星公转
-    const saturnRevolution = () => {
-        const time = Date.now() * 0.001; // 获取当前时间（秒）
-        const angle = time * 0.1; // 公转角度（控制速度）
-
-        // 计算土星在椭圆轨道上的位置
-        saturn.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
-        saturn.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
-    };
-
-    return { group, saturnRevolution, saturnAutoroatation };
+    return { group, animate };
 };
 
 // 土星模型
@@ -114,6 +104,21 @@ const saturnTrack = (sunPosition) => {
     orbitLine.position.z += sunPosition.z;
 
     return orbitLine;
+};
+
+// 土星自转
+const saturnAutoroatation = (saturn) => {
+    saturn.rotation.y += 0.001;
+};
+
+// 土星公转
+const saturnRevolution = (saturn, sunModel) => {
+    const time = Date.now() * 0.001; // 获取当前时间（秒）
+    const angle = time * 0.1; // 公转角度（控制速度）
+
+    // 计算土星在椭圆轨道上的位置
+    saturn.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+    saturn.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
 };
 
 export { saturnGroup };

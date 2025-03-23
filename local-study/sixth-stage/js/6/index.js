@@ -7,6 +7,7 @@ import { sunModel } from "./models/sun.js";
 import { marsGroup } from "./models/mars.js";
 import { jupiterGroup } from "./models/jupiter.js";
 import { saturnGroup } from "./models/saturn.js";
+import { uranusGroup } from "./models/uranus.js";
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -60,6 +61,10 @@ scene.add(jupiter.group);
 const saturn = saturnGroup(sun);
 scene.add(saturn.group);
 
+// 天王星
+const uranus = uranusGroup(sun);
+scene.add(uranus.group);
+
 // const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
 // scene.add(pointLightHelper);
 
@@ -92,19 +97,13 @@ controls.update();
 function animate() {
     // console.log("camera: ", camera.position);
 
-    earth.earthAutoroatation(); // 地球自转
-    earth.earthRevolution(); // 地球公转
-    earth.moonRevolution(); // 月球公转和自转
-    venus.venusAutoroatation(); // 金星自转
-    venus.venusRevolution(); // 金星公转
-    mercury.mercuryAutoroatation(); //水星自转
-    mercury.mercuryRevolution(); // 水星公转
-    mars.marsAutoroatation(); // 火星自转
-    mars.marsRevolution(); // 火星公转
-    jupiter.jupiterAutoroatation(); // 木星自转
-    jupiter.jupiterRevolution(); // 木星公转
-    saturn.saturnAutoroatation(); // 土星自转
-    saturn.saturnRevolution(); // 土星公转
+    mercury.animate(); // 水星运动
+    venus.animate(); // 金星运动
+    earth.animate(); // 地球运动
+    mars.animate(); // 火星运动
+    jupiter.animate(); // 木星运动
+    saturn.animate(); // 土星运动
+    uranus.animate(); // 天王星运动
     renderer.render(scene, camera); //执行渲染操作
 }
 

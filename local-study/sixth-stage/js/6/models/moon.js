@@ -19,9 +19,11 @@ const moonGroup = (earth) => {
     group.add(track);
 
     // 月亮公转和自转
-    const revolution = moonRevolution.bind(null, earth, moon);
+    const animate = () => {
+        moonRevolution(earth, moon);
+    };
 
-    return { group, moonRevolution: revolution };
+    return { group, animate };
 };
 
 // 月球模型

@@ -25,22 +25,12 @@ const venusGroup = (sunModel) => {
     const track = venusTrack(sunModel.sunPosition);
     group.add(track);
 
-    // 金星自转
-    const venusAutoroatation = () => {
-        venusG.rotation.y -= 0.001; // 金星顺时针转
+    const animate = () => {
+        venusAutoroatation(venusG);
+        venusRevolution(venusG, sunModel);
     };
 
-    // 金星公转
-    const venusRevolution = () => {
-        const time = Date.now() * 0.001; // 获取当前时间（秒）
-        const angle = time * 0.15; // 公转角度（控制速度）
-
-        // 计算金星在椭圆轨道上的位置
-        venusG.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
-        venusG.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
-    };
-
-    return { group, venusRevolution, venusAutoroatation };
+    return { group, animate };
 };
 
 // 金星模型
@@ -102,6 +92,21 @@ const venusTrack = (sunPosition) => {
     orbitLine.position.z += sunPosition.z;
 
     return orbitLine;
+};
+
+// 金星自转
+const venusAutoroatation = (venusG) => {
+    venusG.rotation.y -= 0.001; // 金星顺时针转
+};
+
+// 金星公转
+const venusRevolution = (venusG, sunModel) => {
+    const time = Date.now() * 0.001; // 获取当前时间（秒）
+    const angle = time * 0.15; // 公转角度（控制速度）
+
+    // 计算金星在椭圆轨道上的位置
+    venusG.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+    venusG.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
 };
 
 export { venusGroup };

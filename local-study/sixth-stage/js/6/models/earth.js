@@ -22,8 +22,8 @@ const earthGroup = (sunModel) => {
     earthGroup.add(earth);
 
     // 月亮
-    const { group: moonG, moonRevolution } = moonGroup(earth);
-    earthGroup.add(moonG);
+    const moon = moonGroup(earth);
+    earthGroup.add(moon.group);
 
     group.add(earthGroup);
 
@@ -31,23 +31,13 @@ const earthGroup = (sunModel) => {
     const track = earthTrack(sunModel.sunPosition);
     group.add(track);
 
-    // 地球自转
-    const earthAutoroatation = () => {
-        earth.rotation.y += 0.001; // 地球逆时针转
+    const animate = () => {
+        earthAutoroatation(earth);
+        earthRevolution(earthGroup, sunModel);
+        moon.animate(); //月球运动
     };
 
-    // 地球公转
-    const earthRevolution = () => {
-        // 更新地球的位置（绕太阳椭圆公转）
-        const time = Date.now() * 0.001; // 获取当前时间（秒）
-        const angle = time * 0.1; // 公转角度（控制速度）
-
-        // 计算地球在椭圆轨道上的位置
-        earthGroup.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
-        earthGroup.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
-    };
-
-    return { group, earthAutoroatation, earthRevolution, moonRevolution };
+    return { group, animate };
 };
 
 // 地球模型
@@ -143,6 +133,22 @@ const earthTrack = (sunPosition) => {
     orbitLine.position.z += sunPosition.z;
 
     return orbitLine;
+};
+
+// 地球自转
+const earthAutoroatation = (earth) => {
+    earth.rotation.y += 0.001; // 地球逆时针转
+};
+
+// 地球公转
+const earthRevolution = (earthGroup, sunModel) => {
+    // 更新地球的位置（绕太阳椭圆公转）
+    const time = Date.now() * 0.001; // 获取当前时间（秒）
+    const angle = time * 0.1; // 公转角度（控制速度）
+
+    // 计算地球在椭圆轨道上的位置
+    earthGroup.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+    earthGroup.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
 };
 
 export { earthGroup };

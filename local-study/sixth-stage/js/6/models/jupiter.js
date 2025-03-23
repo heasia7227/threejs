@@ -18,22 +18,12 @@ const jupiterGroup = (sunModel) => {
     const track = jupiterTrack(sunModel.sunPosition);
     group.add(track);
 
-    // 木星自转
-    const jupiterAutoroatation = () => {
-        jupiter.rotation.y += 0.001;
+    const animate = () => {
+        jupiterAutoroatation(jupiter);
+        jupiterRevolution(jupiter, sunModel);
     };
 
-    // 木星公转
-    const jupiterRevolution = () => {
-        const time = Date.now() * 0.001; // 获取当前时间（秒）
-        const angle = time * 0.1; // 公转角度（控制速度）
-
-        // 计算木星在椭圆轨道上的位置
-        jupiter.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
-        jupiter.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
-    };
-
-    return { group, jupiterRevolution, jupiterAutoroatation };
+    return { group, animate };
 };
 
 // 木星模型
@@ -77,6 +67,21 @@ const jupiterTrack = (sunPosition) => {
     orbitLine.position.z += sunPosition.z;
 
     return orbitLine;
+};
+
+// 木星自转
+const jupiterAutoroatation = (jupiter) => {
+    jupiter.rotation.y += 0.001;
+};
+
+// 木星公转
+const jupiterRevolution = (jupiter, sunModel) => {
+    const time = Date.now() * 0.001; // 获取当前时间（秒）
+    const angle = time * 0.1; // 公转角度（控制速度）
+
+    // 计算木星在椭圆轨道上的位置
+    jupiter.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
+    jupiter.position.z = semiMinorAxis * Math.cos(angle) + sunModel.sunPosition.z;
 };
 
 export { jupiterGroup };
