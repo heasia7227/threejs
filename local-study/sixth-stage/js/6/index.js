@@ -8,6 +8,7 @@ import { marsGroup } from "./models/mars.js";
 import { jupiterGroup } from "./models/jupiter.js";
 import { saturnGroup } from "./models/saturn.js";
 import { uranusGroup } from "./models/uranus.js";
+import { neptuneGroup } from "./models/neptune.js";
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -65,6 +66,10 @@ scene.add(saturn.group);
 const uranus = uranusGroup(sun);
 scene.add(uranus.group);
 
+// 海王星
+const neptune = neptuneGroup(sun);
+scene.add(neptune.group);
+
 // const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
 // scene.add(pointLightHelper);
 
@@ -75,7 +80,7 @@ scene.add(uranus.group);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(29, 125, 223);
+camera.position.set(30, 200, 300);
 camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 
 const renderer = new THREE.WebGLRenderer();
@@ -104,6 +109,7 @@ function animate() {
     jupiter.animate(); // 木星运动
     saturn.animate(); // 土星运动
     uranus.animate(); // 天王星运动
+    neptune.animate(); // 海王星运动
     renderer.render(scene, camera); //执行渲染操作
 }
 
