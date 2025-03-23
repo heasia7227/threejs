@@ -80,6 +80,7 @@ const moonTrack = () => {
 
     const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x888888 });
     const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
+    orbitLine.name = "月球-轨迹";
 
     return orbitLine;
 };

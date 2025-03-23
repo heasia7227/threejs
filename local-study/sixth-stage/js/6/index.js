@@ -1,5 +1,7 @@
 import * as THREE from "three";
+import Stats from "three/addons/libs/stats.module.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 import { earthGroup } from "./models/earth.js";
 import { venusGroup } from "./models/venus.js";
 import { mercuryGroup } from "./models/mercury.js";
@@ -10,6 +12,17 @@ import { saturnGroup } from "./models/saturn.js";
 import { uranusGroup } from "./models/uranus.js";
 import { neptuneGroup } from "./models/neptune.js";
 import { plutoGroup } from "./models/pluto.js";
+
+// 创建stats对象
+const stats = new Stats();
+// stats.domElement:web页面上输出计算结果,一个div元素
+document.body.appendChild(stats.domElement);
+
+// 实例化一个gui对象
+const gui = new GUI();
+const guiConfig = {
+    showTrack: true,
+};
 
 // Canvas 容器
 const container = document.getElementById("container");
@@ -48,7 +61,7 @@ const venus = venusGroup(sun);
 scene.add(venus.group);
 
 // 地球
-const earth = earthGroup(sun);
+const earth = earthGroup(sun, guiConfig);
 scene.add(earth.group);
 
 // 火星
@@ -105,7 +118,7 @@ controls.update();
 
 // 动画函数
 function animate() {
-    // console.log("camera: ", camera.position);
+    stats.update(); // 告诉stats更新
 
     mercury.animate(); // 水星运动
     venus.animate(); // 金星运动
@@ -130,3 +143,13 @@ window.onresize = function () {
     // 如果相机的一些属性发生了变化，需要执行updateProjectionMatrix ()方法更新相机的投影矩阵
     camera.updateProjectionMatrix();
 };
+
+gui.add(guiConfig, "showTrack")
+    .name("显示轨迹")
+    .onChange((value) => {
+        scene.traverse((item) => {
+            if (item?.isLine && item.name?.endsWith("-轨迹")) {
+                item.visible = value;
+            }
+        });
+    });

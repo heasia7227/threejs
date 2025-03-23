@@ -63,6 +63,7 @@ const uranusTrack = (sunPosition) => {
 
     const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x888888 });
     const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
+    orbitLine.name = "天王星-轨迹";
 
     orbitLine.position.x += sunPosition.x;
     orbitLine.position.z += sunPosition.z;
