@@ -46,7 +46,7 @@ const neptuneModel = () => {
     return neptune;
 };
 
-// 天王星轨迹
+// 海王星轨迹
 const neptuneTrack = (sunPosition) => {
     const orbitPoints = [];
     for (let i = 0; i < numPoints; i++) {
@@ -63,7 +63,7 @@ const neptuneTrack = (sunPosition) => {
 
     const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x888888 });
     const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
-    orbitLine.name = "天王星-轨迹";
+    orbitLine.name = "海王星-轨迹";
 
     orbitLine.position.x += sunPosition.x;
     orbitLine.position.z += sunPosition.z;
