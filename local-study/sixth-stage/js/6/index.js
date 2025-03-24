@@ -22,6 +22,7 @@ document.body.appendChild(stats.domElement);
 const gui = new GUI();
 const guiConfig = {
     showTrack: true,
+    showRotationAxis: true,
 };
 
 // Canvas 容器
@@ -149,6 +150,15 @@ gui.add(guiConfig, "showTrack")
     .onChange((value) => {
         scene.traverse((item) => {
             if (item?.isLine && item.name?.endsWith("-轨迹")) {
+                item.visible = value;
+            }
+        });
+    });
+gui.add(guiConfig, "showRotationAxis")
+    .name("显示自转轴")
+    .onChange((value) => {
+        scene.traverse((item) => {
+            if (item?.isLine && item.name?.endsWith("-地轴")) {
                 item.visible = value;
             }
         });

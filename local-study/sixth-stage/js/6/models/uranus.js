@@ -11,6 +11,7 @@ const uranusGroup = (sunModel) => {
 
     // 天王星球体
     const uranus = uranusModel();
+    uranus.rotateX(-97.77 * (Math.PI / 180));
     uranus.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(uranus);
 
@@ -29,8 +30,9 @@ const uranusGroup = (sunModel) => {
 
 // 天王星模型
 const uranusModel = () => {
+    const group = new THREE.Group();
     // 创建天王星几何体
-    const uranusGeometry = new THREE.SphereGeometry(0.53, 64, 64); // 天王星半径为0.53
+    const uranusGeometry = new THREE.SphereGeometry(1.3, 64, 64); // 天王星半径为1.3
 
     // 纹理加载器
     const uranusTextureLoader = new THREE.TextureLoader().setPath("./textures/");
@@ -42,8 +44,25 @@ const uranusModel = () => {
 
     // 创建天王星网格
     const uranus = new THREE.Mesh(uranusGeometry, uranusMaterial);
+    group.add(uranus);
 
-    return uranus;
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        3,
+        0, // 顶端（超出地球表面）
+        0,
+        -3,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "天王星-地轴";
+    group.add(axisLine);
+
+    return group;
 };
 
 // 天王星轨迹
@@ -73,13 +92,13 @@ const uranusTrack = (sunPosition) => {
 
 // 天王星自转
 const uranusAutoroatation = (uranus) => {
-    uranus.rotation.y += 0.001;
+    uranus.rotation.y += 0.015;
 };
 
 // 天王星公转
 const uranusRevolution = (uranus, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.05; // 公转角度（控制速度）
+    const angle = time * 0.0277; // 公转角度（控制速度）
 
     // 计算天王星在椭圆轨道上的位置
     uranus.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;

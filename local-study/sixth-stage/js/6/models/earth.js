@@ -15,8 +15,8 @@ const earthGroup = (sunModel) => {
 
     // 地球
     const earth = earthModel();
-    // 设置地球的倾斜角度
-    earth.rotateX(-Math.PI / 7.6);
+    // 设置地球的倾斜角度23.5°
+    earth.rotateX(-23.5 * (Math.PI / 180));
     // 设置地球的位置
     earth.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     earthGroup.add(earth);
@@ -108,6 +108,22 @@ const earthModel = () => {
     const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
     group.add(atmosphere);
 
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        1.5,
+        0, // 顶端（超出地球表面）
+        0,
+        -1.5,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "地球-地轴";
+    group.add(axisLine);
+
     return group;
 };
 
@@ -138,7 +154,7 @@ const earthTrack = (sunPosition) => {
 
 // 地球自转
 const earthAutoroatation = (earth) => {
-    earth.rotation.y += 0.001; // 地球逆时针转
+    earth.rotation.y += 0.00067; // 地球逆时针转
 };
 
 // 地球公转

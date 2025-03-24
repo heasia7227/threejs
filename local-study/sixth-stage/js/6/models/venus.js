@@ -19,6 +19,7 @@ const venusGroup = (sunModel) => {
     venusG.add(venusA);
     venusG.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
 
+    venusG.rotateX(-177.36 * (Math.PI / 180));
     group.add(venusG);
 
     // 金星轨迹
@@ -35,6 +36,7 @@ const venusGroup = (sunModel) => {
 
 // 金星模型
 const venusModel = () => {
+    const group = new THREE.Group();
     // 创建金星几何体
     const venusGeometry = new THREE.SphereGeometry(0.95, 64, 64); // 金星半径为0.95
 
@@ -48,8 +50,25 @@ const venusModel = () => {
 
     // 创建金星网格
     const venus = new THREE.Mesh(venusGeometry, venusMaterial);
+    group.add(venus);
 
-    return venus;
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        2.5,
+        0, // 顶端（超出地球表面）
+        0,
+        -2.5,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "金星-地轴";
+    group.add(axisLine);
+
+    return group;
 };
 
 // 金星大气层
@@ -97,13 +116,13 @@ const venusTrack = (sunPosition) => {
 
 // 金星自转
 const venusAutoroatation = (venusG) => {
-    venusG.rotation.y -= 0.001; // 金星顺时针转
+    venusG.rotation.y -= 0.0068; // 金星顺时针转
 };
 
 // 金星公转
 const venusRevolution = (venusG, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.15; // 公转角度（控制速度）
+    const angle = time * 0.116; // 公转角度（控制速度）
 
     // 计算金星在椭圆轨道上的位置
     venusG.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;

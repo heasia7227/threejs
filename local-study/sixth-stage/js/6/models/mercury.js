@@ -11,6 +11,7 @@ const mercuryGroup = (sunModel) => {
 
     // 水星球体
     const mercury = mercuryModel();
+    mercury.rotateX(-2.03 * (Math.PI / 180));
     mercury.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(mercury);
 
@@ -28,6 +29,8 @@ const mercuryGroup = (sunModel) => {
 
 // 水星模型
 const mercuryModel = () => {
+    const group = new THREE.Group();
+
     // 创建水星几何体
     const mercuryGeometry = new THREE.SphereGeometry(0.38, 64, 64); // 水星半径为0.38
 
@@ -41,8 +44,25 @@ const mercuryModel = () => {
 
     // 创建水星网格
     const mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
+    group.add(mercury);
 
-    return mercury;
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        1,
+        0, // 顶端（超出地球表面）
+        0,
+        -1,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "水星-地轴";
+    group.add(axisLine);
+
+    return group;
 };
 
 // 水星轨迹
@@ -78,7 +98,7 @@ const mercuryAutoroatation = (mercury) => {
 // 水星公转
 const mercuryRevolution = (mercury, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.5; // 公转角度（控制速度）
+    const angle = time * 0.157; // 公转角度（控制速度）
 
     // 计算水星在椭圆轨道上的位置
     mercury.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-const radius = 1.5;
+const radius = 1.8;
 
 // 轨迹线上的点数
 const numPoints = 100;
@@ -13,6 +13,7 @@ const saturnGroup = (sunModel) => {
 
     // 土星球体
     const saturn = saturnModel();
+    saturn.rotateX(-26.73 * (Math.PI / 180));
     saturn.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(saturn);
 
@@ -51,6 +52,22 @@ const saturnModel = () => {
     //土星环
     const rings = saturnRings();
     group.add(rings);
+
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        3,
+        0, // 顶端（超出地球表面）
+        0,
+        -3,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "土星-地轴";
+    group.add(axisLine);
 
     return group;
 };
@@ -109,13 +126,13 @@ const saturnTrack = (sunPosition) => {
 
 // 土星自转
 const saturnAutoroatation = (saturn) => {
-    saturn.rotation.y += 0.001;
+    saturn.rotation.y += 0.029;
 };
 
 // 土星公转
 const saturnRevolution = (saturn, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.1; // 公转角度（控制速度）
+    const angle = time * 0.032; // 公转角度（控制速度）
 
     // 计算土星在椭圆轨道上的位置
     saturn.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;

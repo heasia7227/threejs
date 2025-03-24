@@ -11,6 +11,7 @@ const jupiterGroup = (sunModel) => {
 
     // 木星球体
     const jupiter = jupiterModel();
+    jupiter.rotateX(-3.13 * (Math.PI / 180));
     jupiter.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(jupiter);
 
@@ -28,6 +29,7 @@ const jupiterGroup = (sunModel) => {
 
 // 木星模型
 const jupiterModel = () => {
+    const group = new THREE.Group();
     // 创建木星几何体
     const jupiterGeometry = new THREE.SphereGeometry(2, 64, 64); // 木星半径为2
 
@@ -41,8 +43,25 @@ const jupiterModel = () => {
 
     // 创建木星网格
     const jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
+    group.add(jupiter);
 
-    return jupiter;
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        2.5,
+        0, // 顶端（超出星球表面）
+        0,
+        -2.5,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "木星-地轴";
+    group.add(axisLine);
+
+    return group;
 };
 
 // 木星轨迹
@@ -72,13 +91,13 @@ const jupiterTrack = (sunPosition) => {
 
 // 木星自转
 const jupiterAutoroatation = (jupiter) => {
-    jupiter.rotation.y += 0.001;
+    jupiter.rotation.y += 0.033;
 };
 
 // 木星公转
 const jupiterRevolution = (jupiter, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.1; // 公转角度（控制速度）
+    const angle = time * 0.043; // 公转角度（控制速度）
 
     // 计算木星在椭圆轨道上的位置
     jupiter.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;

@@ -11,6 +11,7 @@ const plutoGroup = (sunModel) => {
 
     // 海王星球体
     const pluto = plutoModel();
+    pluto.rotateX(-119.59 * (Math.PI / 180));
     pluto.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(pluto);
 
@@ -31,8 +32,9 @@ const plutoGroup = (sunModel) => {
 
 // 冥王星模型
 const plutoModel = () => {
+    const group = new THREE.Group();
     // 创建冥王星几何体
-    const plutoGeometry = new THREE.SphereGeometry(0.36, 64, 64); // 冥王星半径为0.36
+    const plutoGeometry = new THREE.SphereGeometry(0.37, 64, 64); // 冥王星半径为0.37
 
     // 纹理加载器
     const plutoTextureLoader = new THREE.TextureLoader().setPath("./textures/");
@@ -44,8 +46,25 @@ const plutoModel = () => {
 
     // 创建冥王星网格
     const pluto = new THREE.Mesh(plutoGeometry, plutoMaterial);
+    group.add(pluto);
 
-    return pluto;
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        2,
+        0, // 顶端（超出地球表面）
+        0,
+        -2,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "冥王星-地轴";
+    group.add(axisLine);
+
+    return group;
 };
 
 // 冥王星轨迹
@@ -75,13 +94,13 @@ const plutoTrack = (sunPosition) => {
 
 // 冥王星自转
 const plutoAutoroatation = (pluto) => {
-    pluto.rotation.y += 0.001;
+    pluto.rotation.y += 0.00023;
 };
 
 // 冥王星公转
 const plutoRevolution = (pluto, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.1; // 公转角度（控制速度）
+    const angle = time * 0.0149; // 公转角度（控制速度）
 
     // 计算冥王星在椭圆轨道上的位置
     pluto.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;

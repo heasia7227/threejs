@@ -11,6 +11,7 @@ const neptuneGroup = (sunModel) => {
 
     // 海王星球体
     const neptune = neptuneModel();
+    neptune.rotateX(-28.32 * (Math.PI / 180));
     neptune.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(neptune);
 
@@ -29,8 +30,9 @@ const neptuneGroup = (sunModel) => {
 
 // 海王星模型
 const neptuneModel = () => {
+    const group = new THREE.Group();
     // 创建海王星几何体
-    const neptuneGeometry = new THREE.SphereGeometry(1.5, 64, 64); // 海王星半径为1.5
+    const neptuneGeometry = new THREE.SphereGeometry(1.3, 64, 64); // 海王星半径为1.3
 
     // 纹理加载器
     const neptuneTextureLoader = new THREE.TextureLoader().setPath("./textures/");
@@ -42,8 +44,25 @@ const neptuneModel = () => {
 
     // 创建海王星网格
     const neptune = new THREE.Mesh(neptuneGeometry, neptuneMaterial);
+    group.add(neptune);
 
-    return neptune;
+    // 创建地轴线（红色）
+    const axisGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+        0,
+        3,
+        0, // 顶端（超出地球表面）
+        0,
+        -3,
+        0, // 底端
+    ]);
+    axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    const axisMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const axisLine = new THREE.Line(axisGeometry, axisMaterial);
+    axisLine.name = "海王星-地轴";
+    group.add(axisLine);
+
+    return group;
 };
 
 // 海王星轨迹
@@ -73,13 +92,13 @@ const neptuneTrack = (sunPosition) => {
 
 // 海王星自转
 const neptuneAutoroatation = (neptune) => {
-    neptune.rotation.y += 0.001;
+    neptune.rotation.y += 0.014;
 };
 
 // 海王星公转
 const neptuneRevolution = (neptune, sunModel) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 0.05; // 公转角度（控制速度）
+    const angle = time * 0.0181; // 公转角度（控制速度）
 
     // 计算海王星在椭圆轨道上的位置
     neptune.position.x = semiMajorAxis * Math.sin(angle) + sunModel.sunPosition.x;
