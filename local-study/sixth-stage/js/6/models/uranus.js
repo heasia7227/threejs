@@ -3,8 +3,8 @@ import * as THREE from "three";
 // 轨迹线上的点数
 const numPoints = 100;
 // 椭圆轨道参数
-const semiMajorAxis = 91; // 半长轴 (a) 7
-const semiMinorAxis = 65; // 半短轴 (b) 5
+const semiMajorAxis = 130.5; // 半长轴 (a)
+const semiMinorAxis = 119; // 半短轴 (b)
 
 const uranusGroup = (sunModel) => {
     const group = new THREE.Group();

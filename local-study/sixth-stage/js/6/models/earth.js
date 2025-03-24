@@ -4,9 +4,9 @@ import { moonGroup } from "./moon.js";
 // 地球轨迹线上的点数
 const numPoints = 100;
 // 地球公转半长轴 (a)
-const semiMajorAxis = 28;
+const semiMajorAxis = 26.5;
 // 地球公转半短轴 (b)
-const semiMinorAxis = 20;
+const semiMinorAxis = 25.6;
 
 const earthGroup = (sunModel) => {
     const group = new THREE.Group();

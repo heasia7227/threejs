@@ -3,7 +3,7 @@ import * as THREE from "three";
 // 轨迹线上的点数
 const numPoints = 100;
 // 椭圆轨道参数
-const semiMajorAxis = 10; // 半长轴 (a)
+const semiMajorAxis = 12; // 半长轴 (a)
 const semiMinorAxis = 8; // 半短轴 (b)
 
 const mercuryGroup = (sunModel) => {

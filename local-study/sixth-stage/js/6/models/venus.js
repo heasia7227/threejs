@@ -3,8 +3,8 @@ import * as THREE from "three";
 // 轨迹线上的点数
 const numPoints = 100;
 // 椭圆轨道参数
-const semiMajorAxis = 18.2; // 半长轴 (a)
-const semiMinorAxis = 12.2; // 半短轴 (b)
+const semiMajorAxis = 18.9; // 半长轴 (a)
+const semiMinorAxis = 18.7; // 半短轴 (b)
 
 const venusGroup = (sunModel) => {
     const group = new THREE.Group();
@@ -58,10 +58,10 @@ const venusModel = () => {
     const axisGeometry = new THREE.BufferGeometry();
     const vertices = new Float32Array([
         0,
-        2.5,
+        1.5,
         0, // 顶端（超出地球表面）
         0,
-        -2.5,
+        -1.5,
         0, // 底端
     ]);
     axisGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));

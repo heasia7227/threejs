@@ -5,8 +5,8 @@ const radius = 1.8;
 // 轨迹线上的点数
 const numPoints = 100;
 // 椭圆轨道参数
-const semiMajorAxis = 77; // 半长轴 (a) 7
-const semiMinorAxis = 55; // 半短轴 (b) 5
+const semiMajorAxis = 88; // 半长轴 (a)
+const semiMinorAxis = 83; // 半短轴 (b)
 
 const saturnGroup = (sunModel) => {
     const group = new THREE.Group();

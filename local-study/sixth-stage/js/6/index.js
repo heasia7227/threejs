@@ -99,7 +99,7 @@ scene.add(pluto.group);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(30, 200, 300);
+camera.position.set(74, 299, 545);
 camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 
 const renderer = new THREE.WebGLRenderer();
@@ -119,6 +119,8 @@ controls.update();
 
 // 动画函数
 function animate() {
+    // console.log("camera.position", camera.position);
+
     stats.update(); // 告诉stats更新
 
     mercury.animate(); // 水星运动
