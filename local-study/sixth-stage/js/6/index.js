@@ -12,6 +12,7 @@ import { saturnGroup } from "./models/saturn.js";
 import { uranusGroup } from "./models/uranus.js";
 import { neptuneGroup } from "./models/neptune.js";
 import { plutoGroup } from "./models/pluto.js";
+import { asteroidBeltGroup } from "./models/asteroidBelt.js";
 
 // 创建stats对象
 const stats = new Stats();
@@ -69,6 +70,10 @@ scene.add(earth.group);
 const mars = marsGroup(sun);
 scene.add(mars.group);
 
+// 小行星带
+const asteroidBelt = asteroidBeltGroup(sun);
+scene.add(asteroidBelt.group);
+
 // 木星
 const jupiter = jupiterGroup(sun);
 scene.add(jupiter.group);
@@ -92,10 +97,10 @@ scene.add(pluto.group);
 // const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
 // scene.add(pointLightHelper);
 
-// 辅助坐标系
-const axesHelper = new THREE.AxesHelper(150);
-// 把坐标系加入到场景中
-scene.add(axesHelper);
+// // 辅助坐标系
+// const axesHelper = new THREE.AxesHelper(150);
+// // 把坐标系加入到场景中
+// scene.add(axesHelper);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
