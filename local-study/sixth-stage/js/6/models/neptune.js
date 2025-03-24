@@ -19,6 +19,8 @@ const neptuneGroup = (sunModel) => {
     const track = neptuneTrack(sunModel.sunPosition);
     group.add(track);
 
+    group.rotation.z = 7 * (Math.PI / 180);
+
     // 海王星运动
     const animate = () => {
         neptuneAutoroatation(neptune);

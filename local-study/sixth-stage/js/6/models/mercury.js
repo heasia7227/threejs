@@ -19,6 +19,8 @@ const mercuryGroup = (sunModel) => {
     const track = mercuryTrack(sunModel.sunPosition);
     group.add(track);
 
+    group.rotation.z = 7 * (Math.PI / 180);
+
     const animate = () => {
         mercuryAutoroatation(mercury);
         mercuryRevolution(mercury, sunModel);

@@ -19,6 +19,8 @@ const jupiterGroup = (sunModel) => {
     const track = jupiterTrack(sunModel.sunPosition);
     group.add(track);
 
+    group.rotation.z = 7 * (Math.PI / 180);
+
     const animate = () => {
         jupiterAutoroatation(jupiter);
         jupiterRevolution(jupiter, sunModel);

@@ -19,7 +19,7 @@ const plutoGroup = (sunModel) => {
     const track = plutoTrack(sunModel.sunPosition);
     group.add(track);
 
-    group.rotation.z += Math.PI / 18;
+    group.rotation.z = 17 * (Math.PI / 180);
 
     // 海王星运动
     const animate = () => {

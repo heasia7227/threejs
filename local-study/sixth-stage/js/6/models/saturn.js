@@ -21,6 +21,8 @@ const saturnGroup = (sunModel) => {
     const track = saturnTrack(sunModel.sunPosition);
     group.add(track);
 
+    group.rotation.z = 7 * (Math.PI / 180);
+
     const animate = () => {
         saturnAutoroatation(saturn);
         saturnRevolution(saturn, sunModel);

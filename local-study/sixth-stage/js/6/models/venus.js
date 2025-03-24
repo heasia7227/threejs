@@ -26,6 +26,8 @@ const venusGroup = (sunModel) => {
     const track = venusTrack(sunModel.sunPosition);
     group.add(track);
 
+    group.rotation.z = 7 * (Math.PI / 180);
+
     const animate = () => {
         venusAutoroatation(venusG);
         venusRevolution(venusG, sunModel);
