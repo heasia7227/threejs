@@ -14,7 +14,13 @@ const saturnGroup = (sunModel) => {
     // 土星球体
     const saturn = saturnModel();
     saturn.rotateX(-26.73 * (Math.PI / 180));
-    saturn.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    // 设置土星倾斜角度26.73°
+    saturn.rotation.x = THREE.MathUtils.degToRad(26.73);
+    saturn.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
     group.add(saturn);
 
     // 土星轨迹

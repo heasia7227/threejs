@@ -9,19 +9,24 @@ const semiMinorAxis = 154; // 半短轴 (b)
 const plutoGroup = (sunModel) => {
     const group = new THREE.Group();
 
-    // 海王星球体
+    // 冥王星球体
     const pluto = plutoModel();
-    pluto.rotateX(-119.59 * (Math.PI / 180));
-    pluto.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    // 设置冥王星倾斜角度119.59°
+    pluto.rotation.x = THREE.MathUtils.degToRad(119.59);
+    pluto.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
     group.add(pluto);
 
-    // 海王星轨迹
+    // 冥王星轨迹
     const track = plutoTrack(sunModel.sunPosition);
     group.add(track);
 
     group.rotation.z = 17 * (Math.PI / 180);
 
-    // 海王星运动
+    // 冥王星运动
     const animate = () => {
         plutoAutoroatation(pluto);
         plutoRevolution(pluto, sunModel);

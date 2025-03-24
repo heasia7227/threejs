@@ -92,10 +92,10 @@ scene.add(pluto.group);
 // const pointLightHelper = new THREE.PointLightHelper(sun.sunLight, 0.5);
 // scene.add(pointLightHelper);
 
-// // 辅助坐标系
-// const axesHelper = new THREE.AxesHelper(150);
-// // 把坐标系加入到场景中
-// scene.add(axesHelper);
+// 辅助坐标系
+const axesHelper = new THREE.AxesHelper(150);
+// 把坐标系加入到场景中
+scene.add(axesHelper);
 
 // 相机
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);

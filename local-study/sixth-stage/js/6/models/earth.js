@@ -16,14 +16,19 @@ const earthGroup = (sunModel) => {
     // 地球
     const earth = earthModel();
     // 设置地球的倾斜角度23.5°
-    earth.rotateX(-23.5 * (Math.PI / 180));
-    // 设置地球的位置
-    earth.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    earth.rotation.x = THREE.MathUtils.degToRad(23.5);
     earthGroup.add(earth);
 
     // 月亮
     const moon = moonGroup(earth);
     earthGroup.add(moon.group);
+
+    // 设置地球的位置
+    earthGroup.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
 
     group.add(earthGroup);
 

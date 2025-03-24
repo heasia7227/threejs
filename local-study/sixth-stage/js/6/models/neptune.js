@@ -11,8 +11,13 @@ const neptuneGroup = (sunModel) => {
 
     // 海王星球体
     const neptune = neptuneModel();
-    neptune.rotateX(-28.32 * (Math.PI / 180));
-    neptune.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    // 设置海王星倾斜角度28.32°
+    neptune.rotation.x = THREE.MathUtils.degToRad(28.32);
+    neptune.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
     group.add(neptune);
 
     // 海王星轨迹

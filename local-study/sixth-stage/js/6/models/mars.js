@@ -11,7 +11,8 @@ const marsGroup = (sunModel) => {
 
     // 火星球体
     const mars = marsModel();
-    mars.rotateX(-25.19 * (Math.PI / 180));
+    // 火星自转轴倾斜角度 25.19°
+    mars.rotation.x = THREE.MathUtils.degToRad(25.19);
     mars.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
     group.add(mars);
 

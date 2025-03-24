@@ -17,9 +17,14 @@ const venusGroup = (sunModel) => {
     // 金星大气层
     const venusA = venusAtmosphere();
     venusG.add(venusA);
-    venusG.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    venusG.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
 
-    venusG.rotateX(-177.36 * (Math.PI / 180));
+    // 设置金星倾斜角度177.36°
+    venusG.rotation.x = THREE.MathUtils.degToRad(177.36);
     group.add(venusG);
 
     // 金星轨迹

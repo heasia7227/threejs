@@ -11,8 +11,13 @@ const uranusGroup = (sunModel) => {
 
     // 天王星球体
     const uranus = uranusModel();
-    uranus.rotateX(-97.77 * (Math.PI / 180));
-    uranus.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    // 设置天王星倾斜角度97.77°
+    uranus.rotation.x = THREE.MathUtils.degToRad(97.77);
+    uranus.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
     group.add(uranus);
 
     // 天王星轨迹

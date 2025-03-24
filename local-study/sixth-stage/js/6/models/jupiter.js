@@ -11,8 +11,13 @@ const jupiterGroup = (sunModel) => {
 
     // 木星球体
     const jupiter = jupiterModel();
-    jupiter.rotateX(-3.13 * (Math.PI / 180));
-    jupiter.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    // 木星自转轴倾斜角度 3.13°
+    jupiter.rotation.x = THREE.MathUtils.degToRad(3.13);
+    jupiter.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMinorAxis
+    );
     group.add(jupiter);
 
     // 木星轨迹

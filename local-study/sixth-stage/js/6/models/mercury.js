@@ -11,8 +11,13 @@ const mercuryGroup = (sunModel) => {
 
     // 水星球体
     const mercury = mercuryModel();
-    mercury.rotateX(-2.03 * (Math.PI / 180));
-    mercury.position.set(sunModel.sunPosition.x + semiMajorAxis, sunModel.sunPosition.y, sunModel.sunPosition.z);
+    // 水星自转轴倾斜角度 2.03°
+    mercury.rotation.x = THREE.MathUtils.degToRad(2.03);
+    mercury.position.set(
+        sunModel.sunPosition.x + semiMajorAxis,
+        sunModel.sunPosition.y,
+        sunModel.sunPosition.z + semiMajorAxis
+    );
     group.add(mercury);
 
     // 水星轨迹
