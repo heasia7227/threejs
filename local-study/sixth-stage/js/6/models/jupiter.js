@@ -18,6 +18,8 @@ const jupiterGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+
+    jupiter.name = "木星-组";
     group.add(jupiter);
 
     // 木星轨迹

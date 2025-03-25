@@ -18,6 +18,7 @@ const mercuryGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMajorAxis
     );
+    mercury.name = "水星-组";
     group.add(mercury);
 
     // 水星轨迹

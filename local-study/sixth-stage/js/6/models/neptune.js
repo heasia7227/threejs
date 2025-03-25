@@ -18,6 +18,7 @@ const neptuneGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+    neptune.name = "海王星-组";
     group.add(neptune);
 
     // 海王星轨迹

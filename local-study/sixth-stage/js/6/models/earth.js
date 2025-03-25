@@ -29,6 +29,7 @@ const earthGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+    earthGroup.name = "地球-组";
 
     group.add(earthGroup);
 

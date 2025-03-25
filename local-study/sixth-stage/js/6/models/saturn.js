@@ -21,6 +21,7 @@ const saturnGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+    saturn.name = "土星-组";
     group.add(saturn);
 
     // 土星轨迹

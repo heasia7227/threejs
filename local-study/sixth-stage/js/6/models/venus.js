@@ -25,6 +25,7 @@ const venusGroup = (sunModel) => {
 
     // 设置金星倾斜角度177.36°
     venusG.rotation.x = THREE.MathUtils.degToRad(177.36);
+    venusG.name = "金星-组";
     group.add(venusG);
 
     // 金星轨迹

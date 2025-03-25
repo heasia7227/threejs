@@ -21,9 +21,16 @@ document.body.appendChild(stats.domElement);
 
 // 实例化一个gui对象
 const gui = new GUI();
+const cameraTargets = ["不跟随", "水星", "金星", "地球", "火星", "木星", "土星", "天王星", "海王星", "冥王星"];
 const guiConfig = {
     showTrack: true,
     showRotationAxis: true,
+    cameraTarget: cameraTargets[0],
+    cameraTargetPositionOffset: {
+        x: 20,
+        y: 20,
+        z: 20,
+    },
 };
 
 // Canvas 容器
@@ -103,8 +110,9 @@ scene.add(pluto.group);
 // scene.add(axesHelper);
 
 // 相机
+const cameraPosition = new THREE.Vector3(74, 299, 545);
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(74, 299, 545);
+camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 
 const renderer = new THREE.WebGLRenderer();
@@ -122,9 +130,28 @@ controls.maxDistance = 900;
 controls.target.set(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 controls.update();
 
+const cameraOffset = new THREE.Vector3();
 // 动画函数
 function animate() {
     // console.log("camera.position", camera.position);
+
+    if (guiConfig.cameraTarget !== cameraTargets[0]) {
+        scene.traverse((item) => {
+            if (item.name === `${guiConfig.cameraTarget}-组`) {
+                const planet = item;
+
+                cameraOffset.x = guiConfig.cameraTargetPositionOffset.x;
+                cameraOffset.y = guiConfig.cameraTargetPositionOffset.y;
+                cameraOffset.z = guiConfig.cameraTargetPositionOffset.z;
+                const targetPosition = planet.position.clone().add(cameraOffset);
+                // // 平滑移动相机
+                camera.position.lerp(targetPosition, 0.1);
+
+                // 相机朝向行星
+                camera.lookAt(planet.position);
+            }
+        });
+    }
 
     stats.update(); // 告诉stats更新
 
@@ -170,3 +197,20 @@ gui.add(guiConfig, "showRotationAxis")
             }
         });
     });
+
+const cameraGui = gui.addFolder("镜头");
+cameraGui
+    .add(guiConfig, "cameraTarget", cameraTargets)
+    .name("镜头跟随")
+    .onChange((value) => {
+        if (value === "不跟随") {
+            // 平滑移动相机
+            camera.position.lerp(cameraPosition, 0.1);
+
+            // 相机朝向太阳
+            camera.lookAt(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
+        }
+    });
+cameraGui.add(guiConfig.cameraTargetPositionOffset, "x", -100, 100).name("镜头x轴位置");
+cameraGui.add(guiConfig.cameraTargetPositionOffset, "y", -100, 100).name("镜头y轴位置");
+cameraGui.add(guiConfig.cameraTargetPositionOffset, "z", -100, 100).name("镜头z轴位置");

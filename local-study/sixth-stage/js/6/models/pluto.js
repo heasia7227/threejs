@@ -18,6 +18,7 @@ const plutoGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+    pluto.name = "冥王星-组";
     group.add(pluto);
 
     // 冥王星轨迹

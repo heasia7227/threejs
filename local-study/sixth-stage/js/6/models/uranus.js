@@ -18,6 +18,7 @@ const uranusGroup = (sunModel) => {
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+    uranus.name = "天王星-组";
     group.add(uranus);
 
     // 天王星轨迹
