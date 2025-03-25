@@ -2,8 +2,8 @@ import * as THREE from "three";
 
 // 月球轨迹线上的点数
 const numPoints = 100;
-const semiMajorAxis = 4; // 半长轴 (a)
-const semiMinorAxis = 3.6; // 半短轴 (b)
+const semiMajorAxis = 4.5; // 半长轴 (a)
+const semiMinorAxis = 4; // 半短轴 (b)
 const eccentricity = Math.sqrt(1 - semiMinorAxis ** 2 / semiMajorAxis ** 2); // 偏心率 (e)
 const focusDistance = semiMajorAxis * eccentricity; // 焦点到椭圆中心的距离 (c)
 
@@ -17,6 +17,8 @@ const moonGroup = (earth) => {
     // 月亮轨迹
     const track = moonTrack();
     group.add(track);
+
+    group.rotation.z = THREE.MathUtils.degToRad(5.145);
 
     // 月亮公转和自转
     const animate = () => {
@@ -53,7 +55,7 @@ const moonModel = (earth) => {
 // 月球公转
 const moonRevolution = (earth, moon) => {
     const time = Date.now() * 0.001; // 获取当前时间（秒）
-    const angle = time * 1; // 公转角度（控制速度）
+    const angle = time * 0.34; // 公转角度（控制速度）
 
     // 计算月球在椭圆轨道上的位置
     moon.position.x = semiMajorAxis * Math.sin(angle) + focusDistance;
