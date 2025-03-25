@@ -2,6 +2,9 @@ import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { earthGroup } from "./models/earth.js";
 import { venusGroup } from "./models/venus.js";
 import { mercuryGroup } from "./models/mercury.js";
@@ -130,10 +133,27 @@ controls.maxDistance = 900;
 controls.target.set(sun.sunPosition.x, sun.sunPosition.y, sun.sunPosition.z);
 controls.update();
 
+// 后期处理
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+
+const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    1.5, // 强度
+    0.4, // 半径
+    0.85 // 阈值
+);
+composer.addPass(bloomPass);
+
 const cameraOffset = new THREE.Vector3();
 // 动画函数
 function animate() {
     // console.log("camera.position", camera.position);
+
+    // 更新时间
+    if (sun.sunMesh.material.uniforms.time) {
+        sun.sunMesh.material.uniforms.time.value = performance.now() / 1000;
+    }
 
     if (guiConfig.cameraTarget !== cameraTargets[0]) {
         scene.traverse((item) => {
@@ -164,7 +184,8 @@ function animate() {
     uranus.animate(); // 天王星运动
     neptune.animate(); // 海王星运动
     pluto.animate(); // 冥王星运动
-    renderer.render(scene, camera); //执行渲染操作
+    // renderer.render(scene, camera); //执行渲染操作
+    composer.render();
 }
 
 // onresize 事件会在窗口被调整大小时发生

@@ -15,18 +15,65 @@ const sunModel = () => {
 
     // 纹理加载器
     const sunTextureLoader = new THREE.TextureLoader().setPath("./textures/");
-    const sunTexture = sunTextureLoader.load("sun_bg.jpg");
-    sunTexture.colorSpace = THREE.SRGBColorSpace; //设置为SRGB颜色空间
-    sunTexture.wrapS = THREE.RepeatWrapping;
+
+    const noiseTexture = sunTextureLoader.load("waternormals.jpg");
+    noiseTexture.wrapS = noiseTexture.wrapT = THREE.RepeatWrapping;
+
+    // 自定义着色器材质
+    const lavaMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+            time: { value: 0 },
+            noiseTex: { value: noiseTexture },
+        },
+        vertexShader: `
+            varying vec2 vUv;
+            varying vec3 vPosition;
+            uniform float time;
+            
+            void main() {
+                vUv = uv;
+                vec3 pos = position;
+                // 顶点动画
+                vPosition = pos;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `,
+        fragmentShader: `
+            uniform float time;
+            uniform sampler2D noiseTex;
+            varying vec2 vUv;
+            varying vec3 vPosition;
+            
+            void main() {
+                // 噪声混合
+                vec2 uv1 = vUv * 2.0 + time * 0.02;
+                vec2 uv2 = vUv * 3.0 - time * 0.02;
+                
+                float noise1 = texture2D(noiseTex, uv1).r;
+                float noise2 = texture2D(noiseTex, uv2).g;
+                float finalNoise = mix(noise1, noise2, 0.5);
+                
+                // 颜色渐变
+                vec3 hotColor = vec3(2.5, 0.3, 0.0);
+                vec3 darkColor = vec3(0.1, 0.1, 0.0);
+                vec3 color = mix(hotColor, darkColor, finalNoise);
+                
+                // 边缘发光
+                float edge = 1.0 - smoothstep(0.4, 0.6, finalNoise);
+                color += edge * vec3(1.0, 0.6, 0.2);
+                
+                // 动态高光
+                float highlight = sin(time + vPosition.x * 5.0) * 0.5 + 0.5;
+                color += highlight * 0.01;
+                
+                gl_FragColor = vec4(color, 1.0);
+            }
+        `,
+    });
 
     // 创建太阳
     const sunGeometry = new THREE.SphereGeometry(5, 64, 64);
-    const sunMaterial = new THREE.MeshBasicMaterial({
-        map: sunTexture,
-        emissive: 0xffff00, // 自发光颜色
-        emissiveIntensity: 1, // 自发光强度
-    });
-    const sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
+    const sunMesh = new THREE.Mesh(sunGeometry, lavaMaterial);
     sunMesh.position.set(sunPosition.x, sunPosition.y + 1, sunPosition.z);
 
     return { sunMesh, sunLight, sunPosition };
