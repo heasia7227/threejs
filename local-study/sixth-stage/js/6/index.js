@@ -10,7 +10,7 @@ import { venusGroup } from "./models/venus.js";
 import { mercuryGroup } from "./models/mercury.js";
 import { sunModel } from "./models/sun.js";
 import { marsGroup } from "./models/mars.js";
-import { jupiterGroup } from "./models/jupiter.js";
+import { jupiterGroup } from "./models/jupiter/jupiter.js";
 import { saturnGroup } from "./models/saturn/saturn.js";
 import { uranusGroup } from "./models/uranus.js";
 import { neptuneGroup } from "./models/neptune.js";

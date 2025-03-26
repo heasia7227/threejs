@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
 // 椭圆轨道参数
-const semiMajorAxis = [43.3 + 4, 70 - 4]; // 半长轴 (a)
-const semiMinorAxis = [35.9 + 4, 67.5 - 4]; // 半短轴 (b)
+const semiMajorAxis = [43.3 + 10, 70 - 10]; // 半长轴 (a)
+const semiMinorAxis = [35.9 + 10, 67.5 - 10]; // 半短轴 (b)
 
 const asteroidBeltGroup = (sunModel) => {
     const group = new THREE.Group();
@@ -33,7 +33,7 @@ const asteroidBeltGroup = (sunModel) => {
         group.add(asteroid);
     }
 
-    group.rotation.z = 7 * (Math.PI / 180);
+    group.rotation.z = THREE.MathUtils.degToRad(7);
     return { group };
 };
 

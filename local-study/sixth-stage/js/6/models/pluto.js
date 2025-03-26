@@ -25,7 +25,7 @@ const plutoGroup = (sunModel) => {
     const track = plutoTrack(sunModel.sunPosition);
     group.add(track);
 
-    group.rotation.z = 17 * (Math.PI / 180);
+    group.rotation.z = THREE.MathUtils.degToRad(17);
 
     // 冥王星运动
     const animate = () => {

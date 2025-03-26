@@ -32,7 +32,7 @@ const venusGroup = (sunModel) => {
     const track = venusTrack(sunModel.sunPosition);
     group.add(track);
 
-    group.rotation.z = 7 * (Math.PI / 180);
+    group.rotation.z = THREE.MathUtils.degToRad(7);
 
     const animate = () => {
         venusAutoroatation(venusG);

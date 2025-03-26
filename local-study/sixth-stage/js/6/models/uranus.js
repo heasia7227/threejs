@@ -25,7 +25,7 @@ const uranusGroup = (sunModel) => {
     const track = uranusTrack(sunModel.sunPosition);
     group.add(track);
 
-    group.rotation.z = 7 * (Math.PI / 180);
+    group.rotation.z = THREE.MathUtils.degToRad(7);
 
     // 天王星运动
     const animate = () => {

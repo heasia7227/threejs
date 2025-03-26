@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { satelliteGroup } from "./jupiterSatellite.js";
 
 // 轨迹线上的点数
 const numPoints = 100;
@@ -9,28 +10,37 @@ const semiMinorAxis = 67.5; // 半短轴 (b)
 const jupiterGroup = (sunModel) => {
     const group = new THREE.Group();
 
+    const jupiterGroup = new THREE.Group();
     // 木星球体
     const jupiter = jupiterModel();
     // 木星自转轴倾斜角度 3.13°
     jupiter.rotation.x = THREE.MathUtils.degToRad(3.13);
-    jupiter.position.set(
+    jupiterGroup.add(jupiter);
+
+    jupiterGroup.position.set(
         sunModel.sunPosition.x + semiMajorAxis,
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
+    jupiterGroup.name = "木星-组";
 
-    jupiter.name = "木星-组";
-    group.add(jupiter);
+    // 土星卫星
+    const satellite = satelliteGroup();
+    jupiterGroup.add(satellite.group);
+
+    group.add(jupiterGroup);
 
     // 木星轨迹
     const track = jupiterTrack(sunModel.sunPosition);
     group.add(track);
 
-    group.rotation.z = 7 * (Math.PI / 180);
+    group.rotation.z = THREE.MathUtils.degToRad(7);
 
     const animate = () => {
+        satellite.animate();
+
         jupiterAutoroatation(jupiter);
-        jupiterRevolution(jupiter, sunModel);
+        jupiterRevolution(jupiterGroup, sunModel);
     };
 
     return { group, animate };
