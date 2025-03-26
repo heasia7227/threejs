@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { satelliteGroup } from "./saturnSatellite.js";
 
 const radius = 1.8;
 
@@ -11,28 +12,38 @@ const semiMinorAxis = 83; // 半短轴 (b)
 const saturnGroup = (sunModel) => {
     const group = new THREE.Group();
 
+    const saturnGroup = new THREE.Group();
+
     // 土星球体
     const saturn = saturnModel();
     saturn.rotateX(-26.73 * (Math.PI / 180));
     // 设置土星倾斜角度26.73°
     saturn.rotation.x = THREE.MathUtils.degToRad(26.73);
-    saturn.position.set(
+    saturnGroup.add(saturn);
+
+    // 土星卫星
+    const satellite = satelliteGroup();
+    saturnGroup.add(satellite.group);
+
+    saturnGroup.name = "土星-组";
+    saturnGroup.position.set(
         sunModel.sunPosition.x + semiMajorAxis,
         sunModel.sunPosition.y,
         sunModel.sunPosition.z + semiMinorAxis
     );
-    saturn.name = "土星-组";
-    group.add(saturn);
+    group.add(saturnGroup);
 
     // 土星轨迹
     const track = saturnTrack(sunModel.sunPosition);
     group.add(track);
 
-    group.rotation.z = 7 * (Math.PI / 180);
+    group.rotation.z = THREE.MathUtils.degToRad(7);
 
     const animate = () => {
+        satellite.animate();
+
         saturnAutoroatation(saturn);
-        saturnRevolution(saturn, sunModel);
+        saturnRevolution(saturnGroup, sunModel);
     };
 
     return { group, animate };

@@ -5,7 +5,7 @@ const sunModel = () => {
     const sunPosition = new THREE.Vector3(0, 0, 10);
 
     // 太阳照射, 使用点光源模拟
-    const sunLight = new THREE.PointLight("#ffffff", 5, 10000, 0);
+    const sunLight = new THREE.PointLight("#ffffff", 3, 10000, 0);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 1024; // 阴影贴图宽度
     sunLight.shadow.mapSize.height = 1024; // 阴影贴图高度

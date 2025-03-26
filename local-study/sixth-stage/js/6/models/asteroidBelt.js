@@ -14,7 +14,7 @@ const asteroidBeltGroup = (sunModel) => {
         new THREE.MeshPhongMaterial({ color: 0x777777 }),
     ];
 
-    for (let i = 0; i < 3000; i++) {
+    for (let i = 0; i < 2000; i++) {
         const material = asteroidMaterials[Math.floor(Math.random() * 3)];
         const asteroid = new THREE.Mesh(asteroidGeometry, material);
 
